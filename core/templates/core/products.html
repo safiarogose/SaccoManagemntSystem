@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="content-grid">
+        <section class="panel">
+            <div class="panel-head"><h2>Product Setup</h2><span class="pill green">Active</span></div>
+            <form class="form-grid">
+                <label>Name<input value="Ordinary Savings"></label>
+                <label>Type<select><option>Savings</option><option>Welfare</option><option>Share Capital</option><option>Loan</option></select></label>
+                <label>Interest Rate<input value="0"></label>
+                <label>Status<select><option>Active</option><option>Inactive</option></select></label>
+                <button class="primary-button full" type="submit">Save Product</button>
+            </form>
+        </section>
+        <section class="panel wide">
+            <div class="panel-head"><h2>Product Register</h2><button class="ghost-button">Add</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Product</th><th>Type</th><th>Rate</th><th>Accounts</th><th>Status</th></tr></thead><tbody><tr><td>Normal Loan</td><td>Loan</td><td>12%</td><td>386</td><td><span class="pill green">Active</span></td></tr></tbody></table></div>
+        </section>
+    </div>
+</section>
+{% endblock %}

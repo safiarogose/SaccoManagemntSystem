@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="content-grid">
+        <section class="panel">
+            <div class="panel-head"><h2>Branch Details</h2><button class="ghost-button">Add</button></div>
+            <form class="form-grid">
+                <label>Branch Code<input value="BR-001"></label>
+                <label>Name<input value="Parliament Branch"></label>
+                <label class="full">Location<input value="Parliamentary Police Headquarters"></label>
+                <button class="primary-button full" type="submit">Save Branch</button>
+            </form>
+        </section>
+        <section class="panel wide">
+            <div class="panel-head"><h2>Branch Performance</h2><button class="ghost-button">Export</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Branch</th><th>Members</th><th>Savings</th><th>Loans</th><th>Arrears</th></tr></thead><tbody><tr><td>Parliament Branch</td><td>846</td><td>UGX 1.92B</td><td>UGX 720M</td><td>UGX 31M</td></tr></tbody></table></div>
+        </section>
+    </div>
+</section>
+{% endblock %}

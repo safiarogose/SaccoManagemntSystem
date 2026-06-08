@@ -1,0 +1,133 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="content-grid">
+        <section class="panel">
+            <div class="panel-head"><h2 id="loan-form-title">Loan Application</h2><span class="pill blue">CRUD</span></div>
+            <form class="form-grid" id="loan-form">
+                <input type="hidden" id="loan-index">
+                <label>Loan No<input id="loan-no" value="LN-2026-014" required></label>
+                <label>Member<input id="loan-member" value="ROGOSE SAFIA" required></label>
+                <label>Loan Type<select id="loan-type"><option>Normal Loan</option><option>Emergency Loan</option><option>School Fees Loan</option></select></label>
+                <label>Amount<input id="loan-amount" type="number" min="1" value="5000000" required></label>
+                <label>Outstanding<input id="loan-outstanding" type="number" min="0" value="3820000" required></label>
+                <label>Months<input id="loan-months" type="number" min="1" value="24" required></label>
+                <label>Status<select id="loan-status"><option>Applied</option><option>Approved</option><option>Running</option><option>Cleared</option><option>Defaulted</option><option>Rejected</option></select></label>
+                <button class="primary-button full" type="submit">Submit Application</button>
+                <button class="ghost-button full" type="button" id="loan-reset">Clear Form</button>
+            </form>
+        </section>
+        <section class="panel wide">
+            <div class="panel-head"><h2>Loan Portfolio</h2><button class="ghost-button">Arrears</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Loan No</th><th>Member</th><th>Type</th><th>Amount</th><th>Outstanding</th><th>Status</th><th>Actions</th></tr></thead><tbody id="loan-rows"></tbody></table></div>
+        </section>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const loanDefaults = [
+        { no: "LN-2026-014", member: "ROGOSE SAFIA", type: "Normal Loan", amount: 5000000, outstanding: 3820000, months: 24, status: "Running" },
+        { no: "LN-2026-015", member: "AMINA KATO", type: "Emergency Loan", amount: 1200000, outstanding: 1200000, months: 6, status: "Applied" }
+    ];
+    const loanMoney = new Intl.NumberFormat("en-UG", { style: "currency", currency: "UGX", maximumFractionDigits: 0 });
+    let loans = JSON.parse(localStorage.getItem("ppsw-loans") || "null") || loanDefaults;
+    const loanRows = document.getElementById("loan-rows");
+    const loanForm = document.getElementById("loan-form");
+    const loanFields = {
+        index: document.getElementById("loan-index"),
+        no: document.getElementById("loan-no"),
+        member: document.getElementById("loan-member"),
+        type: document.getElementById("loan-type"),
+        amount: document.getElementById("loan-amount"),
+        outstanding: document.getElementById("loan-outstanding"),
+        months: document.getElementById("loan-months"),
+        status: document.getElementById("loan-status")
+    };
+
+    function saveLoans() {
+        localStorage.setItem("ppsw-loans", JSON.stringify(loans));
+    }
+
+    function loanPill(status) {
+        const tone = ["Running", "Approved"].includes(status) ? "green" : status === "Applied" ? "amber" : ["Defaulted", "Rejected"].includes(status) ? "red" : "blue";
+        return `<span class="pill ${tone}">${status}</span>`;
+    }
+
+    function resetLoanForm() {
+        loanForm.reset();
+        loanFields.index.value = "";
+        loanFields.no.value = `LN-2026-${String(14 + loans.length).padStart(3, "0")}`;
+        document.getElementById("loan-form-title").textContent = "Loan Application";
+    }
+
+    function renderLoans() {
+        loanRows.innerHTML = loans.map((loan, index) => `
+            <tr>
+                <td>${loan.no}</td>
+                <td>${loan.member}</td>
+                <td>${loan.type}</td>
+                <td>${loanMoney.format(loan.amount)}</td>
+                <td>${loanMoney.format(loan.outstanding)}</td>
+                <td>${loanPill(loan.status)}</td>
+                <td><button class="mini-button" data-edit="${index}">Edit</button><button class="mini-button danger" data-delete="${index}">Delete</button></td>
+            </tr>
+        `).join("");
+    }
+
+    loanForm.addEventListener("submit", event => {
+        event.preventDefault();
+        const loan = {
+            no: loanFields.no.value.trim(),
+            member: loanFields.member.value.trim(),
+            type: loanFields.type.value,
+            amount: Number(loanFields.amount.value),
+            outstanding: Number(loanFields.outstanding.value),
+            months: Number(loanFields.months.value),
+            status: loanFields.status.value
+        };
+        const editing = loanFields.index.value !== "";
+        const duplicate = loans.some((item, index) => item.no === loan.no && String(index) !== loanFields.index.value);
+        if (duplicate) {
+            alert("Loan number already exists.");
+            return;
+        }
+        if (editing) loans[Number(loanFields.index.value)] = loan;
+        else loans.unshift(loan);
+        saveLoans();
+        renderLoans();
+        resetLoanForm();
+    });
+
+    loanRows.addEventListener("click", event => {
+        const edit = event.target.closest("[data-edit]");
+        const remove = event.target.closest("[data-delete]");
+        if (edit) {
+            const loan = loans[Number(edit.dataset.edit)];
+            loanFields.index.value = edit.dataset.edit;
+            loanFields.no.value = loan.no;
+            loanFields.member.value = loan.member;
+            loanFields.type.value = loan.type;
+            loanFields.amount.value = loan.amount;
+            loanFields.outstanding.value = loan.outstanding;
+            loanFields.months.value = loan.months;
+            loanFields.status.value = loan.status;
+            document.getElementById("loan-form-title").textContent = "Edit Loan";
+        }
+        if (remove) {
+            const index = Number(remove.dataset.delete);
+            if (!confirm(`Delete loan ${loans[index].no}?`)) return;
+            loans.splice(index, 1);
+            saveLoans();
+            renderLoans();
+            resetLoanForm();
+        }
+    });
+
+    document.getElementById("loan-reset").addEventListener("click", resetLoanForm);
+    resetLoanForm();
+    renderLoans();
+</script>
+{% endblock %}

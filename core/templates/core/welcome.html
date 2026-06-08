@@ -1,0 +1,440 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} | Parliamentary Police SACCO</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        body.public-welcome {
+            margin: 0;
+            background: #ffffff;
+            color: #17233a;
+            font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+        }
+
+        .public-header {
+            position: fixed;
+            inset: 0 0 auto;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            min-height: 78px;
+            padding: 0 clamp(18px, 7vw, 110px);
+            background: rgba(0, 13, 131, 0.97);
+            color: #ffffff;
+            box-shadow: 0 12px 34px rgba(0, 13, 131, 0.18);
+        }
+
+        .public-brand,
+        .public-nav a,
+        .public-portal,
+        .public-button {
+            text-decoration: none;
+        }
+
+        .public-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #ffffff;
+        }
+
+        .public-brand-mark {
+            display: grid;
+            place-items: center;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: #000d83;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .public-brand strong,
+        .public-brand small {
+            display: block;
+        }
+
+        .public-brand small {
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 11px;
+        }
+
+        .public-nav {
+            display: flex;
+            gap: 28px;
+        }
+
+        .public-nav a {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .public-portal,
+        .public-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 48px;
+            padding: 0 20px;
+            border-radius: 999px;
+            font-weight: 800;
+        }
+
+        .public-portal,
+        .public-button.light {
+            background: #ffffff;
+            color: #000d83;
+        }
+
+        .public-button.dark {
+            background: #000d83;
+            color: #ffffff;
+        }
+
+        .public-hero {
+            display: flex;
+            align-items: center;
+            min-height: 690px;
+            padding: 138px clamp(22px, 7vw, 110px) 96px;
+            background-position: center right;
+            background-size: cover;
+            color: #ffffff;
+        }
+
+        .public-hero-copy {
+            max-width: 790px;
+        }
+
+        .public-script {
+            margin: 0 0 10px;
+            font-family: "Segoe Script", "Bradley Hand ITC", cursive;
+            font-size: clamp(22px, 2.8vw, 38px);
+            font-weight: 700;
+        }
+
+        .public-hero h1 {
+            margin: 0;
+            max-width: 780px;
+            font-size: clamp(42px, 6.5vw, 88px);
+            font-weight: 700;
+            line-height: 1.04;
+        }
+
+        .public-hero p:not(.public-script) {
+            max-width: 660px;
+            margin: 22px 0 0;
+            color: rgba(255, 255, 255, 0.86);
+            font-size: 18px;
+            line-height: 1.7;
+        }
+
+        .public-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 30px;
+        }
+
+        .public-growth {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: minmax(260px, 0.7fr) repeat(4, minmax(128px, 1fr));
+            width: min(1240px, calc(100% - 24px));
+            margin: -72px auto 60px 0;
+            padding: 34px;
+            border-radius: 0 20px 20px 0;
+            background: #000d83;
+            color: #ffffff;
+            box-shadow: 0 20px 58px rgba(0, 13, 131, 0.25);
+        }
+
+        .public-growth h2 {
+            margin: 0;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .public-growth p {
+            margin: 8px 0 0;
+            color: rgba(255, 255, 255, 0.74);
+        }
+
+        .public-growth article {
+            display: grid;
+            align-content: center;
+            gap: 6px;
+            min-height: 96px;
+            padding: 0 22px;
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+        }
+
+        .public-growth strong,
+        .public-growth span {
+            display: block;
+        }
+
+        .public-growth strong {
+            font-size: 26px;
+        }
+
+        .public-growth span {
+            color: rgba(255, 255, 255, 0.74);
+            font-size: 13px;
+        }
+
+        .public-section {
+            width: min(1160px, calc(100% - 44px));
+            margin: 0 auto 74px;
+        }
+
+        .public-about,
+        .public-why,
+        .public-contact {
+            display: grid;
+            grid-template-columns: minmax(260px, 0.85fr) minmax(260px, 1fr);
+            gap: 42px;
+            align-items: start;
+        }
+
+        .public-kicker {
+            margin: 0 0 8px;
+            color: #000d83;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .public-section h2 {
+            margin: 0;
+            font-size: clamp(30px, 3vw, 44px);
+            font-weight: 800;
+            line-height: 1.12;
+        }
+
+        .public-section p {
+            color: #667085;
+            font-size: 16px;
+            line-height: 1.75;
+        }
+
+        .public-card-grid,
+        .public-checks {
+            display: grid;
+            gap: 18px;
+        }
+
+        .public-card-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .public-card-grid article {
+            display: grid;
+            gap: 12px;
+            min-height: 230px;
+            padding: 28px;
+            border: 1px solid #e6e9ed;
+            background: #ffffff;
+            box-shadow: 0 14px 38px rgba(42, 63, 84, 0.08);
+        }
+
+        .public-card-grid h3 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .public-icon {
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .public-icon.green {
+            background: #e8faf6;
+            color: #1abb9c;
+        }
+
+        .public-icon.blue {
+            background: #eaf5fc;
+            color: #3498db;
+        }
+
+        .public-icon.amber {
+            background: #fff6e8;
+            color: #f0ad4e;
+        }
+
+        .public-checks {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .public-checks span {
+            min-height: 58px;
+            padding: 16px 18px;
+            border-left: 4px solid #1abb9c;
+            background: #f4f8fb;
+            font-weight: 800;
+        }
+
+        .public-contact {
+            align-items: center;
+            margin-bottom: 0;
+            padding: 42px;
+            border-radius: 18px 18px 0 0;
+            background: #f3f7fb;
+        }
+
+        @media (max-width: 1000px) {
+            .public-header {
+                align-items: flex-start;
+                flex-direction: column;
+                padding-top: 16px;
+                padding-bottom: 16px;
+            }
+
+            .public-nav {
+                flex-wrap: wrap;
+                gap: 14px;
+            }
+
+            .public-hero {
+                min-height: 680px;
+                padding-top: 235px;
+                background-position: center;
+            }
+
+            .public-growth,
+            .public-card-grid,
+            .public-about,
+            .public-why,
+            .public-contact {
+                grid-template-columns: 1fr;
+            }
+
+            .public-growth {
+                width: 100%;
+                margin-top: 0;
+                border-radius: 0;
+            }
+
+            .public-growth article {
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+                border-left: 0;
+            }
+
+            .public-checks {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="public-welcome">
+    <header class="public-header">
+        <a class="public-brand" href="{% url 'home' %}">
+            <span class="public-brand-mark">P</span>
+            <span>
+                <strong>PPSW SACCO</strong>
+                <small>Parliamentary Police Saving Welfare SACCO</small>
+            </span>
+        </a>
+        <nav class="public-nav" aria-label="Welcome navigation">
+            <a href="#about">About</a>
+            <a href="#services">Products</a>
+            <a href="#why-us">Why Join</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <a class="public-portal" href="{% url 'login' %}?next={% url 'dashboard' %}">Member Portal</a>
+    </header>
+
+    <main>
+        <section class="public-hero" style="background-image: linear-gradient(90deg, rgba(0, 13, 131, 0.92) 0%, rgba(0, 28, 130, 0.74) 48%, rgba(0, 13, 131, 0.08) 100%), url('{% static 'images/sacco-hero.png' %}');">
+            <div class="public-hero-copy">
+                <p class="public-script">Welcome to PPSW SACCO</p>
+                <h1>Growing together through savings, welfare, and affordable credit.</h1>
+                <p>We help members build financial confidence through secure savings, fair loans, welfare support, and accountable SACCO management.</p>
+                <div class="public-actions">
+                    <a class="public-button dark" href="{% url 'login' %}?next={% url 'dashboard' %}">Access Member Portal</a>
+                    <a class="public-button light" href="#services">Explore Services</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="public-growth" aria-label="SACCO highlights">
+            <div>
+                <h2>Our Growth Highlights</h2>
+                <p>Serving members with transparent records and dependable SACCO services.</p>
+            </div>
+            <article><strong>Save</strong><span>Regular member savings</span></article>
+            <article><strong>Borrow</strong><span>Affordable credit support</span></article>
+            <article><strong>Grow</strong><span>Share capital and welfare</span></article>
+            <article><strong>Trust</strong><span>Clear member records</span></article>
+        </section>
+
+        <section class="public-section public-about" id="about">
+            <div>
+                <p class="public-kicker">About The SACCO</p>
+                <h2>A member-owned financial partner for disciplined saving and welfare support.</h2>
+            </div>
+            <p>PPSW SACCO exists to strengthen the financial wellbeing of its members. The SACCO encourages regular saving, provides access to responsible credit, and keeps member records organized for quick service and clear accountability.</p>
+        </section>
+
+        <section class="public-section" id="services">
+            <div>
+                <p class="public-kicker">Products & Services</p>
+                <h2>Built around member needs</h2>
+            </div>
+            <div class="public-card-grid">
+                <article>
+                    <span class="public-icon green">S</span>
+                    <h3>Savings & Shares</h3>
+                    <p>Grow ordinary savings, welfare contributions, and share capital with clear balances.</p>
+                </article>
+                <article>
+                    <span class="public-icon blue">L</span>
+                    <h3>Loan Services</h3>
+                    <p>Apply for member loans with guarantor tracking, repayment records, and fair review.</p>
+                </article>
+                <article>
+                    <span class="public-icon amber">W</span>
+                    <h3>Welfare Support</h3>
+                    <p>Support members through organized records, branch follow-up, and timely reporting.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="public-section public-why" id="why-us">
+            <div>
+                <p class="public-kicker">Why Join Us</p>
+                <h2>Trusted, transparent, and focused on member progress.</h2>
+            </div>
+            <div class="public-checks">
+                <span>Member-owned cooperative values</span>
+                <span>Transparent savings and loan records</span>
+                <span>Affordable credit for planned needs</span>
+                <span>Welfare-first member support</span>
+            </div>
+        </section>
+
+        <section class="public-section public-contact" id="contact">
+            <div>
+                <p class="public-kicker">Get Started</p>
+                <h2>Ready to save, borrow, or check your SACCO account?</h2>
+                <p>Use the member portal to sign in, or contact the SACCO office for registration and support.</p>
+            </div>
+            <a class="public-button dark" href="{% url 'login' %}?next={% url 'dashboard' %}">Go To Member Portal</a>
+        </section>
+    </main>
+</body>
+</html>

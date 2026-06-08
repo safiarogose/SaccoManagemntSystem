@@ -1,0 +1,23 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <section class="panel">
+        <div class="panel-head">
+            <h2>Delete {{ model_title }}</h2>
+            <span class="pill red">Confirm</span>
+        </div>
+        <div class="stack-list">
+            <div class="list-item">
+                <strong>{{ object }}</strong>
+                <span>This database record will be deleted.</span>
+            </div>
+        </div>
+        <form class="form-grid" method="post">
+            {% csrf_token %}
+            <button class="primary-button full" type="submit">Delete Record</button>
+            <a class="ghost-button full auth-link" href="{% url 'model-list' model_name %}">Cancel</a>
+        </form>
+    </section>
+</section>
+{% endblock %}

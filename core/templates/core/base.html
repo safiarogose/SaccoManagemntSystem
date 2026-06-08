@@ -1,0 +1,105 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} | Parliamentary Police SACCO</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body class="gentelella-theme"
+      data-members-url="{% url 'model-list' 'members' %}"
+      data-accounts-url="{% url 'model-list' 'accounts' %}"
+      data-loans-url="{% url 'model-list' 'loans' %}"
+      data-transactions-url="{% url 'model-list' 'account-transactions' %}"
+      {% if model_name %}data-current-create-url="{% url 'model-create' model_name %}"{% endif %}>
+    <div class="app-shell">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img">
+                        <path d="M12 2 20 5v6c0 5.2-3.2 9.8-8 11-4.8-1.2-8-5.8-8-11V5l8-3Z"/>
+                        <path d="M8 12h8M12 8v8"/>
+                    </svg>
+                </div>
+                <div>
+                    <strong>PPSW SACCO</strong>
+                    <span>Admin Safia</span>
+                </div>
+            </div>
+
+            <div class="profile-card">
+                <div class="avatar">PP</div>
+                <div>
+                    <span>Welcome,</span>
+                    <strong>SACCO Manager ROGOSE SAFIA</strong>
+                </div>
+            </div>
+
+            <nav class="main-nav" aria-label="Main navigation">
+                <p class="menu-section">Main Menu</p>
+                {% include "core/partials/nav_link.html" with slug="dashboard" label="Dashboard" icon="M4 13h7V4H4v9Zm0 7h7v-5H4v5Zm9 0h7v-9h-7v9Zm0-18v7h7V2h-7Z" %}
+                {% include "core/partials/nav_link.html" with slug="members" label="Members" icon="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3ZM8 11c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3Zm0 2c-2.7 0-5 1.3-5 3v2h10v-2c0-1.7-2.3-3-5-3Zm8 0c-.4 0-.8 0-1.2.1 1 .7 1.7 1.7 1.7 2.9v2H22v-2c0-1.7-2.3-3-6-3Z" %}
+                {% include "core/partials/nav_link.html" with slug="accounts" label="Accounts" icon="M3 7h18v13H3V7Zm2 2v2h16V9H5Zm0 5v4h7v-4H5Zm10 0v1.5h5V14h-5Z" %}
+                {% include "core/partials/nav_link.html" with slug="transactions" label="Transactions" icon="M7 7h13v2H7l3 3-1.4 1.4L3.2 8l5.4-5.4L10 4 7 7Zm10 10H4v-2h13l-3-3 1.4-1.4 5.4 5.4-5.4 5.4L14 20l3-3Z" %}
+                {% include "core/partials/nav_link.html" with slug="loans" label="Loans" icon="M6 3h12v18H6V3Zm2 2v3h8V5H8Zm0 5v2h8v-2H8Zm0 4v2h5v-2H8Z" %}
+                {% include "core/partials/nav_link.html" with slug="guarantors" label="Guarantors" icon="M12 2 20 6v6c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6l8-4Zm-2 12.6 7-7L15.6 6.2 10 11.8 8.4 10.2 7 11.6l3 3Z" %}
+                {% include "core/partials/nav_link.html" with slug="repayments" label="Repayments" icon="M4 5h16v4H4V5Zm0 6h10v8H4v-8Zm12 0h4v2h-4v-2Zm0 4h4v2h-4v-2Z" %}
+                <p class="menu-section">Administration</p>
+                {% include "core/partials/nav_link.html" with slug="staff" label="Staff" icon="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-8 8c.5-4 3.8-6 8-6s7.5 2 8 6H4Z" %}
+                {% include "core/partials/nav_link.html" with slug="branches" label="Branches" icon="M3 21V9l9-6 9 6v12h-6v-7H9v7H3Zm8 0v-5h2v5h-2Z" %}
+                {% include "core/partials/nav_link.html" with slug="products" label="Products" icon="M4 4h7v7H4V4Zm9 0h7v7h-7V4ZM4 13h7v7H4v-7Zm9 0h7v7h-7v-7Z" %}
+                {% include "core/partials/nav_link.html" with slug="reports" label="Reports" icon="M5 3h14v18H5V3Zm3 4v2h8V7H8Zm0 4v2h8v-2H8Zm0 4v2h5v-2H8Z" %}
+                {% include "core/partials/nav_link.html" with slug="settings" label="Settings" icon="M19.4 13.5c.1-.5.1-1 .1-1.5s0-1-.1-1.5l2-1.5-2-3.4-2.4 1a8 8 0 0 0-2.6-1.5L14 2h-4l-.4 3.1A8 8 0 0 0 7 6.6l-2.4-1-2 3.4 2 1.5A9.9 9.9 0 0 0 4.5 12c0 .5 0 1 .1 1.5l-2 1.5 2 3.4 2.4-1a8 8 0 0 0 2.6 1.5L10 22h4l.4-3.1a8 8 0 0 0 2.6-1.5l2.4 1 2-3.4-2-1.5ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z" %}
+            </nav>
+        </aside>
+
+        <main class="workspace">
+            <header class="topbar">
+                <div class="page-heading">
+                    <p class="eyebrow">Parliamentary Police Saving Welfare SACCO</p>
+                    <h1 id="page-title">{{ page_title }}</h1>
+                </div>
+                <div class="top-actions">
+                    <label class="search">
+                        <svg viewBox="0 0 24 24"><path d="M10 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm5.3 9.3 4.4 4.4-1.4 1.4-4.4-4.4 1.4-1.4Z"/></svg>
+                        <input id="global-search" type="search" placeholder="Search member, account, loan">
+                    </label>
+                    <button class="icon-button" type="button" title="Print current view" data-action="print">
+                        <svg viewBox="0 0 24 24"><path d="M6 9V3h12v6h2a2 2 0 0 1 2 2v7h-4v3H6v-3H2v-7a2 2 0 0 1 2-2h2Zm2-4v4h8V5H8Zm0 12v2h8v-2H8Zm14-5h-2v2h2v-2Z"/></svg>
+                    </button>
+                    <button class="icon-button" type="button" title="Notifications" data-action="notifications">
+                        <svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22Zm7-6v-5a7 7 0 0 0-5-6.7V3a2 2 0 0 0-4 0v1.3A7 7 0 0 0 5 11v5l-2 2v1h18v-1l-2-2Z"/></svg>
+                    </button>
+                    <div class="top-profile">
+                        <div class="avatar small">SM</div>
+                        <span>{% if request.user.is_authenticated %}{{ request.user.username }}{% else %}Guest{% endif %}</span>
+                    </div>
+                    {% if request.user.is_authenticated %}
+                        <a class="ghost-button auth-link" href="/logout/">Logout</a>
+                    {% else %}
+                        <a class="ghost-button auth-link" href="/login/">Login</a>
+                    {% endif %}
+                    <button class="primary-button" type="button" id="new-record">New Record</button>
+                </div>
+            </header>
+
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="modal" id="modal" aria-hidden="true">
+        <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+            <div class="panel-head">
+                <h2 id="modal-title">System Notice</h2>
+                <button class="icon-button" type="button" id="modal-close" title="Close">
+                    <svg viewBox="0 0 24 24"><path d="m6.4 5 12.6 12.6-1.4 1.4L5 6.4 6.4 5Zm12.6 1.4L6.4 19 5 17.6 17.6 5 19 6.4Z"/></svg>
+                </button>
+            </div>
+            <div class="modal-body" id="modal-body"></div>
+        </section>
+    </div>
+    <script src="{% static 'app.js' %}" defer></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

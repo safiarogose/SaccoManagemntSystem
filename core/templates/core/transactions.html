@@ -1,0 +1,123 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="split-layout">
+        <section class="panel">
+            <div class="panel-head"><h2 id="transaction-form-title">Post Transaction</h2><span class="pill green">CRUD</span></div>
+            <form class="form-grid" id="transaction-form">
+                <input type="hidden" id="transaction-index">
+                <label>Date<input id="transaction-date" type="date" value="2026-06-04" required></label>
+                <label>Account<input id="transaction-account" value="SA-001183" required></label>
+                <label>Type<select id="transaction-type"><option>Deposit</option><option>Withdrawal</option><option>Loan Repayment</option><option>Charge</option></select></label>
+                <label>Method<select id="transaction-method"><option>Cash</option><option>Bank Transfer</option><option>Mobile Money</option><option>Payroll Deduction</option></select></label>
+                <label>Amount<input id="transaction-amount" type="number" min="1" value="250000" required></label>
+                <label>Balance After<input id="transaction-balance" type="number" min="0" value="7450000" required></label>
+                <label class="full">Narration<input id="transaction-narration" placeholder="Transaction note"></label>
+                <button class="primary-button full" type="submit">Post Transaction</button>
+                <button class="ghost-button full" type="button" id="transaction-reset">Clear Form</button>
+            </form>
+        </section>
+        <section class="panel wide">
+            <div class="panel-head"><h2>Transaction Ledger</h2><button class="ghost-button">Reconcile</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Date</th><th>Account</th><th>Type</th><th>Method</th><th>Amount</th><th>Balance After</th><th>Actions</th></tr></thead><tbody id="transaction-rows"></tbody></table></div>
+        </section>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const transactionDefaults = [
+        { date: "2026-06-04", account: "SA-001183", type: "Deposit", method: "Payroll Deduction", amount: 250000, balance: 7450000, narration: "Monthly contribution" },
+        { date: "2026-06-03", account: "WF-001184", type: "Charge", method: "Cash", amount: 15000, balance: 2135000, narration: "Service charge" }
+    ];
+    const transactionMoney = new Intl.NumberFormat("en-UG", { style: "currency", currency: "UGX", maximumFractionDigits: 0 });
+    let transactions = JSON.parse(localStorage.getItem("ppsw-transactions") || "null") || transactionDefaults;
+    const transactionRows = document.getElementById("transaction-rows");
+    const transactionForm = document.getElementById("transaction-form");
+    const transactionFields = {
+        index: document.getElementById("transaction-index"),
+        date: document.getElementById("transaction-date"),
+        account: document.getElementById("transaction-account"),
+        type: document.getElementById("transaction-type"),
+        method: document.getElementById("transaction-method"),
+        amount: document.getElementById("transaction-amount"),
+        balance: document.getElementById("transaction-balance"),
+        narration: document.getElementById("transaction-narration")
+    };
+
+    function saveTransactions() {
+        localStorage.setItem("ppsw-transactions", JSON.stringify(transactions));
+    }
+
+    function resetTransactionForm() {
+        transactionForm.reset();
+        transactionFields.index.value = "";
+        transactionFields.date.value = new Date().toISOString().slice(0, 10);
+        document.getElementById("transaction-form-title").textContent = "Post Transaction";
+    }
+
+    function renderTransactions() {
+        transactionRows.innerHTML = transactions.map((transaction, index) => `
+            <tr>
+                <td>${transaction.date}</td>
+                <td>${transaction.account}</td>
+                <td>${transaction.type}</td>
+                <td>${transaction.method}</td>
+                <td>${transactionMoney.format(transaction.amount)}</td>
+                <td>${transactionMoney.format(transaction.balance)}</td>
+                <td><button class="mini-button" data-edit="${index}">Edit</button><button class="mini-button danger" data-delete="${index}">Delete</button></td>
+            </tr>
+        `).join("");
+    }
+
+    transactionForm.addEventListener("submit", event => {
+        event.preventDefault();
+        const transaction = {
+            date: transactionFields.date.value,
+            account: transactionFields.account.value.trim(),
+            type: transactionFields.type.value,
+            method: transactionFields.method.value,
+            amount: Number(transactionFields.amount.value),
+            balance: Number(transactionFields.balance.value),
+            narration: transactionFields.narration.value.trim()
+        };
+        if (!transaction.account || transaction.amount <= 0 || transaction.balance < 0) return;
+        if (transactionFields.index.value !== "") transactions[Number(transactionFields.index.value)] = transaction;
+        else transactions.unshift(transaction);
+        saveTransactions();
+        renderTransactions();
+        resetTransactionForm();
+    });
+
+    transactionRows.addEventListener("click", event => {
+        const edit = event.target.closest("[data-edit]");
+        const remove = event.target.closest("[data-delete]");
+        if (edit) {
+            const transaction = transactions[Number(edit.dataset.edit)];
+            transactionFields.index.value = edit.dataset.edit;
+            transactionFields.date.value = transaction.date;
+            transactionFields.account.value = transaction.account;
+            transactionFields.type.value = transaction.type;
+            transactionFields.method.value = transaction.method;
+            transactionFields.amount.value = transaction.amount;
+            transactionFields.balance.value = transaction.balance;
+            transactionFields.narration.value = transaction.narration;
+            document.getElementById("transaction-form-title").textContent = "Edit Transaction";
+        }
+        if (remove) {
+            const index = Number(remove.dataset.delete);
+            if (!confirm(`Delete transaction for ${transactions[index].account}?`)) return;
+            transactions.splice(index, 1);
+            saveTransactions();
+            renderTransactions();
+            resetTransactionForm();
+        }
+    });
+
+    document.getElementById("transaction-reset").addEventListener("click", resetTransactionForm);
+    resetTransactionForm();
+    renderTransactions();
+</script>
+{% endblock %}

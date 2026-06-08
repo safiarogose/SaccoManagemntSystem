@@ -1,0 +1,186 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="toolbar">
+        <button class="segmented active" data-product-filter="All">All</button>
+        <button class="segmented" data-product-filter="Ordinary Savings">Savings</button>
+        <button class="segmented" data-product-filter="Welfare Fund">Welfare</button>
+        <button class="segmented" data-product-filter="Share Capital">Share Capital</button>
+        <button class="segmented" data-product-filter="Loan Account">Loan Accounts</button>
+    </div>
+    <div class="split-layout">
+        <section class="panel">
+            <div class="panel-head"><h2 id="account-form-title">Open Account</h2><span class="pill green">CRUD</span></div>
+            <form class="form-grid" id="account-form">
+                <input type="hidden" id="account-index">
+                <label>Account No<input id="account-no" value="SA-001183" required></label>
+                <label>Member<input id="account-member" value="ROGOSE SAFIA" required></label>
+                <label>Product<select id="account-product"><option>Ordinary Savings</option><option>Welfare Fund</option><option>Share Capital</option><option>Loan Account</option></select></label>
+                <label>Opened<input id="account-opened" type="date" value="2026-06-04" required></label>
+                <label>Balance<input id="account-balance" type="number" min="0" step="1000" value="7450000" required></label>
+                <label>Status<select id="account-status"><option>Active</option><option>Dormant</option><option>Closed</option></select></label>
+                <button class="primary-button full" type="submit">Save Account</button>
+                <button class="ghost-button full" type="button" id="account-reset">Clear Form</button>
+            </form>
+        </section>
+
+        <section class="panel wide">
+            <div class="panel-head"><h2>Account Balances</h2><button class="ghost-button" id="account-statement">Statement</button></div>
+            <div class="table-wrap">
+                <table>
+                    <thead><tr><th>Account</th><th>Member</th><th>Product</th><th>Opened</th><th>Balance</th><th>Status</th><th>Actions</th></tr></thead>
+                    <tbody id="account-rows"></tbody>
+                </table>
+            </div>
+        </section>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const accountDefaults = [
+        { no: "SA-001183", member: "ROGOSE SAFIA", product: "Ordinary Savings", opened: "2026-06-04", balance: 7450000, status: "Active" },
+        { no: "WF-001184", member: "AMINA KATO", product: "Welfare Fund", opened: "2026-04-18", balance: 2150000, status: "Active" },
+        { no: "SC-001185", member: "DANIEL OKELLO", product: "Share Capital", opened: "2026-02-11", balance: 5300000, status: "Active" }
+    ];
+
+    const money = new Intl.NumberFormat("en-UG", {
+        style: "currency",
+        currency: "UGX",
+        maximumFractionDigits: 0
+    });
+
+    const rows = document.getElementById("account-rows");
+    const form = document.getElementById("account-form");
+    const fields = {
+        index: document.getElementById("account-index"),
+        no: document.getElementById("account-no"),
+        member: document.getElementById("account-member"),
+        product: document.getElementById("account-product"),
+        opened: document.getElementById("account-opened"),
+        balance: document.getElementById("account-balance"),
+        status: document.getElementById("account-status")
+    };
+    let productFilter = "All";
+    let accounts = JSON.parse(localStorage.getItem("ppsw-accounts") || "null") || accountDefaults;
+
+    function saveAccounts() {
+        localStorage.setItem("ppsw-accounts", JSON.stringify(accounts));
+    }
+
+    function pill(status) {
+        const tone = status === "Active" ? "green" : status === "Dormant" ? "amber" : "red";
+        return `<span class="pill ${tone}">${status}</span>`;
+    }
+
+    function resetForm() {
+        form.reset();
+        fields.index.value = "";
+        fields.no.value = nextAccountNo();
+        fields.opened.value = new Date().toISOString().slice(0, 10);
+        document.getElementById("account-form-title").textContent = "Open Account";
+    }
+
+    function nextAccountNo() {
+        const next = accounts.length + 1183;
+        return `SA-${String(next).padStart(6, "0")}`;
+    }
+
+    function renderAccounts() {
+        const visible = accounts.filter(account => productFilter === "All" || account.product === productFilter);
+        rows.innerHTML = visible.map(account => {
+            const index = accounts.indexOf(account);
+            return `
+                <tr>
+                    <td>${account.no}</td>
+                    <td>${account.member}</td>
+                    <td>${account.product}</td>
+                    <td>${account.opened}</td>
+                    <td>${money.format(account.balance)}</td>
+                    <td>${pill(account.status)}</td>
+                    <td>
+                        <button class="mini-button" type="button" data-edit="${index}">Edit</button>
+                        <button class="mini-button danger" type="button" data-delete="${index}">Delete</button>
+                    </td>
+                </tr>
+            `;
+        }).join("") || `<tr><td colspan="7">No accounts found for this filter.</td></tr>`;
+    }
+
+    form.addEventListener("submit", event => {
+        event.preventDefault();
+        const account = {
+            no: fields.no.value.trim(),
+            member: fields.member.value.trim(),
+            product: fields.product.value,
+            opened: fields.opened.value,
+            balance: Number(fields.balance.value),
+            status: fields.status.value
+        };
+        const editing = fields.index.value !== "";
+        const duplicate = accounts.some((item, index) => item.no === account.no && String(index) !== fields.index.value);
+
+        if (!account.no || !account.member || account.balance < 0) return;
+        if (duplicate) {
+            alert("Account number already exists.");
+            return;
+        }
+
+        if (editing) {
+            accounts[Number(fields.index.value)] = account;
+        } else {
+            accounts.unshift(account);
+        }
+
+        saveAccounts();
+        renderAccounts();
+        resetForm();
+    });
+
+    document.getElementById("account-reset").addEventListener("click", resetForm);
+
+    document.querySelector(".toolbar").addEventListener("click", event => {
+        if (!event.target.matches("[data-product-filter]")) return;
+        document.querySelectorAll("[data-product-filter]").forEach(button => button.classList.remove("active"));
+        event.target.classList.add("active");
+        productFilter = event.target.dataset.productFilter;
+        renderAccounts();
+    });
+
+    rows.addEventListener("click", event => {
+        const editButton = event.target.closest("[data-edit]");
+        const deleteButton = event.target.closest("[data-delete]");
+
+        if (editButton) {
+            const index = Number(editButton.dataset.edit);
+            const account = accounts[index];
+            fields.index.value = index;
+            fields.no.value = account.no;
+            fields.member.value = account.member;
+            fields.product.value = account.product;
+            fields.opened.value = account.opened;
+            fields.balance.value = account.balance;
+            fields.status.value = account.status;
+            document.getElementById("account-form-title").textContent = "Edit Account";
+        }
+
+        if (deleteButton) {
+            const index = Number(deleteButton.dataset.delete);
+            if (!confirm(`Delete account ${accounts[index].no}?`)) return;
+            accounts.splice(index, 1);
+            saveAccounts();
+            renderAccounts();
+            resetForm();
+        }
+    });
+
+    document.getElementById("account-statement").addEventListener("click", () => {
+        window.print();
+    });
+
+    resetForm();
+    renderAccounts();
+</script>
+{% endblock %}

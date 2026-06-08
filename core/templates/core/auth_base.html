@@ -1,0 +1,53 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} | Parliamentary Police SACCO</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body class="gentelella-theme auth-page auth-portal-page">
+    <a class="auth-home-link" href="{% url 'home' %}">Back to SACCO Home</a>
+    <main class="auth-shell">
+        <section class="auth-visual" aria-label="SACCO portal introduction">
+            <div class="auth-visual-content">
+                <p class="hero-script">Member Portal</p>
+                <h1>Welcome back to PPSW SACCO.</h1>
+                <p>Sign in to manage members, savings accounts, loan workflows, repayments, and SACCO reports with confidence.</p>
+                <div class="auth-visual-stats">
+                    <div><strong>Secure</strong><span>staff access</span></div>
+                    <div><strong>Live</strong><span>member records</span></div>
+                    <div><strong>Clear</strong><span>loan tracking</span></div>
+                </div>
+            </div>
+        </section>
+        <section class="auth-card">
+            <div class="auth-brand">
+                <div class="brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" role="img">
+                        <path d="M12 2 20 5v6c0 5.2-3.2 9.8-8 11-4.8-1.2-8-5.8-8-11V5l8-3Z"/>
+                        <path d="M8 12h8M12 8v8"/>
+                    </svg>
+                </div>
+                <div>
+                    <strong>PPSW SACCO</strong>
+                    <span>Parliamentary Police Saving Welfare SACCO</span>
+                </div>
+            </div>
+
+            {% if messages %}
+                <div class="auth-messages">
+                    {% for message in messages %}
+                        <p class="{{ message.tags }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% block auth_content %}{% endblock %}
+        </section>
+    </main>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="{% static 'app.js' %}" defer></script>
+</body>
+</html>

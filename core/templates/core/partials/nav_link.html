@@ -1,0 +1,4 @@
+<a class="nav-item {% if active_page == slug %}active{% endif %}" href="{% if slug == 'dashboard' %}{% url 'dashboard' %}{% else %}/{{ slug }}/{% endif %}" title="{{ label }}">
+    <svg viewBox="0 0 24 24"><path d="{{ icon }}"/></svg>
+    <span>{{ label }}</span>
+</a>

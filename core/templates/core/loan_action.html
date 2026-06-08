@@ -1,0 +1,23 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <section class="panel">
+        <div class="panel-head">
+            <h2>{{ action|title }} Loan</h2>
+            <span class="pill amber">{{ loan.status }}</span>
+        </div>
+        <div class="stack-list">
+            <div class="list-item">
+                <strong>{{ loan.loan_no }} - {{ loan.member }}</strong>
+                <span>{{ loan.loan_type }} | UGX {{ loan.loan_amount|floatformat:0 }} | Outstanding UGX {{ loan.outstanding_balance|floatformat:0 }}</span>
+            </div>
+        </div>
+        <form class="form-grid" method="post">
+            {% csrf_token %}
+            <button class="primary-button full" type="submit">{{ action|title }} Loan</button>
+            <a class="ghost-button full auth-link" href="{% url 'model-list' 'loans' %}">Cancel</a>
+        </form>
+    </section>
+</section>
+{% endblock %}

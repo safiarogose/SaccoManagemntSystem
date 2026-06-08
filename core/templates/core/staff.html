@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="content-grid">
+        <section class="panel">
+            <div class="panel-head"><h2>Register Staff</h2><button class="ghost-button">Invite</button></div>
+            <form class="form-grid">
+                <label>Staff No<input value="STF-026"></label>
+                <label>Name<input placeholder="Full name"></label>
+                <label>Role<select><option>Administrator</option><option>Manager</option><option>Teller</option><option>Auditor</option></select></label>
+                <label>Branch<select><option>Parliament Branch</option><option>Central Branch</option></select></label>
+                <button class="primary-button full" type="submit">Save Staff</button>
+            </form>
+        </section>
+        <section class="panel wide">
+            <div class="panel-head"><h2>Staff Users</h2><span class="pill green">6 active</span></div>
+            <div class="table-wrap"><table><thead><tr><th>Staff No</th><th>Name</th><th>Role</th><th>Branch</th><th>Status</th></tr></thead><tbody><tr><td>STF-001</td><td>ROGOSE SAFIA</td><td>Manager</td><td>Parliament</td><td><span class="pill green">Active</span></td></tr></tbody></table></div>
+        </section>
+    </div>
+</section>
+{% endblock %}

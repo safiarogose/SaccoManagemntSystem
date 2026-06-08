@@ -1,0 +1,35 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <section class="panel">
+        <div class="panel-head">
+            <div>
+                <h2>{{ title }}</h2>
+                <p class="panel-subtitle">{{ subtitle }}</p>
+            </div>
+            <a class="ghost-button auth-link" href="{% url back_url back_model %}">Back</a>
+        </div>
+
+        {% if messages %}
+            <div class="auth-messages">
+                {% for message in messages %}
+                    <p class="{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form class="form-grid" method="post">
+            {% csrf_token %}
+            {% for field in form %}
+                <label>
+                    {{ field.label }}
+                    {{ field }}
+                    {% if field.errors %}<span class="red">{{ field.errors|striptags }}</span>{% endif %}
+                </label>
+            {% endfor %}
+            <button class="primary-button full" type="submit">Submit</button>
+        </form>
+    </section>
+</section>
+{% endblock %}

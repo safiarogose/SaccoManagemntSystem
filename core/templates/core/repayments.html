@@ -1,0 +1,22 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="split-layout">
+        <section class="panel">
+            <div class="panel-head"><h2>Record Repayment</h2><span class="pill green">Open</span></div>
+            <form class="form-grid">
+                <label class="full">Loan<select><option>LN-2026-014 - Balance UGX 3,820,000</option></select></label>
+                <label>Installment<input value="8"></label>
+                <label>Amount<input value="320000"></label>
+                <label>Method<select><option>Payroll Deduction</option><option>Cash</option><option>Bank Transfer</option><option>Mobile Money</option></select></label>
+                <button class="primary-button full" type="submit">Save Repayment</button>
+            </form>
+        </section>
+        <section class="panel wide">
+            <div class="panel-head"><h2>Repayment History</h2><button class="ghost-button">Schedule</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Date</th><th>Loan</th><th>Installment</th><th>Principal</th><th>Interest</th><th>Outstanding</th></tr></thead><tbody><tr><td>31 May 2026</td><td>LN-2026-014</td><td>7</td><td>UGX 270,000</td><td>UGX 50,000</td><td>UGX 3,820,000</td></tr></tbody></table></div>
+        </section>
+    </div>
+</section>
+{% endblock %}

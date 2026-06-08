@@ -1,0 +1,26 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="content-grid">
+        <section class="panel">
+            <div class="panel-head"><h2>Roles</h2><button class="ghost-button">Edit</button></div>
+            <div class="stack-list">
+                <div class="list-item"><strong>Administrator</strong><span>System setup, staff, roles, branches, products</span></div>
+                <div class="list-item"><strong>Manager</strong><span>Loan approvals, reports, supervision</span></div>
+                <div class="list-item"><strong>Teller</strong><span>Deposits, withdrawals, repayments</span></div>
+            </div>
+        </section>
+        <section class="panel">
+            <div class="panel-head"><h2>System Controls</h2><button class="ghost-button">Save</button></div>
+            <form class="form-grid">
+                <label class="full">SACCO Name<input value="Parliamentary Police Saving Welfare SACCO"></label>
+                <label>Default Branch<select><option>Parliament Branch</option></select></label>
+                <label>Overdrafts<select><option>Disabled</option><option>Enabled</option></select></label>
+                <label>Timezone<input value="Africa/Kampala"></label>
+                <label>Status<select><option>Live</option><option>Maintenance</option></select></label>
+            </form>
+        </section>
+    </div>
+</section>
+{% endblock %}

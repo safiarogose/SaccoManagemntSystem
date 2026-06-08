@@ -1,0 +1,24 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="dashboard-filter">
+        <div class="filter-group">
+            <label>Date From<input type="date" value="2026-06-01"></label>
+            <label>Date To<input type="date" value="2026-06-04"></label>
+            <label>Branch<select><option>All Branches</option><option>Parliament Branch</option></select></label>
+        </div>
+        <div class="filter-group">
+            <button class="primary-button">View Report</button>
+            <button class="ghost-button">Export PDF</button>
+            <button class="ghost-button">Export Excel</button>
+        </div>
+    </div>
+    <div class="report-grid">
+        <article class="panel"><div class="panel-head"><h2>Member Register</h2><span class="pill green">Ready</span></div><p class="panel-subtitle">Members by branch, status, and join date.</p></article>
+        <article class="panel"><div class="panel-head"><h2>Savings Summary</h2><span class="pill blue">Finance</span></div><p class="panel-subtitle">Balances by product and member account.</p></article>
+        <article class="panel"><div class="panel-head"><h2>Loan Arrears</h2><span class="pill amber">Risk</span></div><p class="panel-subtitle">Outstanding loans by aging band.</p></article>
+        <article class="panel"><div class="panel-head"><h2>Audit Report</h2><span class="pill blue">Control</span></div><p class="panel-subtitle">Sensitive staff actions and posting history.</p></article>
+    </div>
+</section>
+{% endblock %}

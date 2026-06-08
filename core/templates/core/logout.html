@@ -1,0 +1,15 @@
+{% extends "core/auth_base.html" %}
+
+{% block auth_content %}
+<div class="auth-heading">
+    <p class="eyebrow">Session</p>
+    <h1>Logout</h1>
+</div>
+
+<p class="panel-subtitle">End the current SACCO management session.</p>
+<form class="form-grid auth-form" method="post">
+    {% csrf_token %}
+    <button class="primary-button full" type="submit">Logout</button>
+    <a class="ghost-button full auth-link" href="/">Back to Dashboard</a>
+</form>
+{% endblock %}

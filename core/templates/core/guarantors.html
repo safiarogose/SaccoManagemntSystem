@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <div class="split-layout">
+        <section class="panel">
+            <div class="panel-head"><h2>Add Guarantor</h2><span class="pill blue">Loan Support</span></div>
+            <form class="form-grid">
+                <label class="full">Loan<select><option>LN-2026-014 - ROGOSE SAFIA</option></select></label>
+                <label class="full">Guarantor Member<select><option>PPSW-1038 - Parliament Branch</option></select></label>
+                <label class="full">Guaranteed Amount<input value="1500000"></label>
+                <button class="primary-button full" type="submit">Link Guarantor</button>
+            </form>
+        </section>
+        <section class="panel wide">
+            <div class="panel-head"><h2>Guarantor Register</h2><button class="ghost-button">Review</button></div>
+            <div class="table-wrap"><table><thead><tr><th>Loan</th><th>Guarantor</th><th>Phone</th><th>Amount</th><th>Status</th></tr></thead><tbody><tr><td>LN-2026-014</td><td>PPSW-1038</td><td>+256 701 000000</td><td>UGX 1,500,000</td><td><span class="pill green">Attached</span></td></tr></tbody></table></div>
+        </section>
+    </div>
+</section>
+{% endblock %}

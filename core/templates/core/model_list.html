@@ -1,0 +1,82 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <section class="panel">
+        <div class="panel-head">
+            <h2>{{ model_title }}</h2>
+            <div class="filter-group">
+                {% if model_name == "account-transactions" %}
+                    <a class="primary-button auth-link" href="{% url 'post-transaction' %}">Post Transaction</a>
+                {% endif %}
+                <a class="primary-button auth-link" href="{% url 'model-create' model_name %}">New Record</a>
+            </div>
+        </div>
+        <form class="dashboard-filter" method="get">
+            <div class="filter-group">
+                <label>Search<input name="q" value="{{ query }}" placeholder="Search {{ model_title|lower }}"></label>
+            </div>
+            <div class="filter-group">
+                <button class="primary-button" type="submit">Search</button>
+                <a class="ghost-button auth-link" href="{% url 'model-index' %}">All Models</a>
+            </div>
+        </form>
+
+        {% if messages %}
+            <div class="auth-messages">
+                {% for message in messages %}
+                    <p class="{{ message.tags }}">{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        {% for column in columns %}<th>{{ column|cut:"_"|title }}</th>{% endfor %}
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                        <tr>
+                            {% for value in row.values %}<td>{{ value }}</td>{% endfor %}
+                            <td>
+                                <a class="mini-button" href="{% url 'model-update' model_name row.object.pk %}">Edit</a>
+                                <a class="mini-button danger" href="{% url 'model-delete' model_name row.object.pk %}">Delete</a>
+                                {% if model_name == "loans" %}
+                                    {% if row.object.status == "Applied" %}
+                                        <a class="mini-button" href="{% url 'loan-action' row.object.pk 'approve' %}">Approve</a>
+                                        <a class="mini-button danger" href="{% url 'loan-action' row.object.pk 'reject' %}">Reject</a>
+                                    {% endif %}
+                                    {% if row.object.status == "Approved" %}
+                                        <a class="mini-button" href="{% url 'loan-action' row.object.pk 'disburse' %}">Disburse</a>
+                                    {% endif %}
+                                    {% if row.object.status == "Running" or row.object.status == "Defaulted" %}
+                                        <a class="mini-button" href="{% url 'loan-repayment' row.object.pk %}">Repay</a>
+                                    {% endif %}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr><td colspan="{{ columns|length|add:1 }}">No records found.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        {% if page_obj.has_other_pages %}
+            <div class="toolbar">
+                {% if page_obj.has_previous %}
+                    <a class="ghost-button auth-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+                <span class="pill blue">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+                {% if page_obj.has_next %}
+                    <a class="ghost-button auth-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}">Next</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </section>
+</section>
+{% endblock %}

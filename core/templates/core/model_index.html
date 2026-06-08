@@ -1,0 +1,21 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<section class="view active-view">
+    <section class="panel">
+        <div class="panel-head">
+            <h2>Database Records</h2>
+            <span class="pill blue">{{ model_links|length }} models</span>
+        </div>
+        <div class="report-grid">
+            {% for slug, config in model_links.items %}
+                <article class="report-card">
+                    <strong>{{ config.title }}</strong>
+                    <span>Manage {{ config.title|lower }} records from the database.</span>
+                    <a class="ghost-button auth-link" href="{% url 'model-list' slug %}">Open</a>
+                </article>
+            {% endfor %}
+        </div>
+    </section>
+</section>
+{% endblock %}
