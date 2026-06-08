@@ -17,6 +17,7 @@ from .forms import (
     AccountForm,
     AccountTransactionForm,
     AccountTypeForm,
+    ActivityLogForm,
     BranchForm,
     GuarantorForm,
     LoanForm,
@@ -36,6 +37,7 @@ from .models import (
     Account,
     AccountTransaction,
     AccountType,
+    ActivityLog,
     Branch,
     Guarantor,
     Loan,
@@ -76,6 +78,7 @@ PAGES = {
     "products": "Products",
     "reports": "Reports",
     "settings": "Settings",
+    "activity-logs": "Activity Logs",
 }
 
 
@@ -90,6 +93,7 @@ PAGE_MODEL_ROUTES = {
     "branches": "branches",
     "products": "products",
     "settings": "records",
+    "activity-logs": "activity-logs",
 }
 
 
@@ -109,6 +113,7 @@ MODEL_VIEWS = {
     "guarantors": {"model": Guarantor, "form": GuarantorForm, "title": "Guarantors", "columns": ["member", "first_name", "last_name", "id_no", "phone"], "search": ["first_name", "last_name", "id_no", "phone", "member__member_no"]},
     "loan-guarantors": {"model": LoanGuarantor, "form": LoanGuarantorForm, "title": "Loan Guarantors", "columns": ["loan", "guarantor", "guaranteed_amount"], "search": ["loan__loan_no", "guarantor__first_name", "guarantor__last_name"]},
     "loan-repayments": {"model": LoanRepayment, "form": LoanRepaymentForm, "title": "Loan Repayments", "columns": ["repayment_date", "loan", "installment_no", "amount_paid", "balance_outstanding", "received_by"], "search": ["loan__loan_no", "loan__member__member_no"]},
+    "activity-logs": {"model": ActivityLog, "form": ActivityLogForm, "title": "Activity Logs", "columns": ["created_at", "user", "action", "module", "object_repr", "ip_address"], "search": ["user__username", "action", "module", "object_repr", "description", "ip_address"], "readonly": True},
 }
 
 
@@ -128,11 +133,32 @@ MODEL_PERMISSIONS = {
     "guarantors": {"Administrator", "Manager", "Loans Officer", "Auditor"},
     "loan-guarantors": {"Administrator", "Manager", "Loans Officer", "Auditor"},
     "loan-repayments": {"Administrator", "Teller", "Accountant", "Auditor"},
+    "activity-logs": {"Administrator", "Manager", "Auditor"},
 }
 
 
 def get_model_config(model_name):
     return MODEL_VIEWS.get(model_name)
+
+
+def client_ip(request):
+    forwarded_for = request.META.get("HTTP_X_FORWARDED_FOR", "")
+    if forwarded_for:
+        return forwarded_for.split(",")[0].strip()
+    return request.META.get("REMOTE_ADDR")
+
+
+def log_activity(request, action, module="", object_repr="", description=""):
+    user = request.user if getattr(request, "user", None) and request.user.is_authenticated else None
+    ActivityLog.objects.create(
+        user=user,
+        action=action,
+        module=module,
+        object_repr=str(object_repr)[:255],
+        description=description,
+        ip_address=client_ip(request),
+        user_agent=request.META.get("HTTP_USER_AGENT", "")[:255],
+    )
 
 
 def model_field_value(instance, field_name):
@@ -152,6 +178,7 @@ def model_context(config, model_name, **extra):
         "page_title": config["title"],
         "columns": config["columns"],
         "model_links": MODEL_VIEWS,
+        "readonly": config.get("readonly", False),
     }
     context.update(extra)
     return context
@@ -163,6 +190,7 @@ def require_module_access(request, model_name):
     allowed = MODEL_PERMISSIONS.get(model_name, set())
     user_groups = set(request.user.groups.values_list("name", flat=True))
     if not allowed.intersection(user_groups):
+        log_activity(request, "denied", model_name, description="User attempted to access a restricted module.")
         raise PermissionDenied("You do not have permission to access this module.")
 
 
@@ -195,7 +223,7 @@ def home(request):
         request,
         "core/welcome.html",
         {
-            "page_title": "Welcome To ASACCO",
+            "page_title": "Welcome To parliamentary police savings welfare sacco ",
             "active_members": active_members,
             "total_members": total_members,
             "total_savings": total_savings,
@@ -360,8 +388,10 @@ def login_page(request):
 
         if user is not None:
             login(request, user)
+            log_activity(request, "login", "authentication", user.username, "User signed in.")
             return redirect(request.GET.get("next") or "dashboard")
 
+        log_activity(request, "login_failed", "authentication", username, "Invalid username or password.")
         messages.error(request, "Invalid username or password.")
 
     return render(request, "core/login.html", {"page_title": "Login"})
@@ -370,6 +400,7 @@ def login_page(request):
 @login_required(login_url="login")
 def logout_page(request):
     if request.method == "POST":
+        log_activity(request, "logout", "authentication", request.user.username, "User signed out.")
         logout(request)
         messages.success(request, "You have been logged out.")
         return redirect("login")
@@ -480,6 +511,9 @@ def model_create(request, model_name):
     if not config:
         return render(request, "core/404.html", status=404)
     require_module_access(request, model_name)
+    if config.get("readonly"):
+        messages.error(request, f"{config['title']} records are read-only.")
+        return redirect("model-list", model_name=model_name)
 
     form_class = config["form"]
     form = form_class(request.POST or None)
@@ -488,6 +522,7 @@ def model_create(request, model_name):
         if isinstance(instance, AccountTransaction):
             instance.account.current_balance = instance.balance_after
             instance.account.save(update_fields=["current_balance", "updated_at"])
+        log_activity(request, "create", model_name, instance, f"Created {config['title']} record.")
         messages.success(request, f"{config['title']} record created.")
         return redirect("model-list", model_name=model_name)
 
@@ -504,6 +539,9 @@ def model_update(request, model_name, pk):
     if not config:
         return render(request, "core/404.html", status=404)
     require_module_access(request, model_name)
+    if config.get("readonly"):
+        messages.error(request, f"{config['title']} records are read-only.")
+        return redirect("model-list", model_name=model_name)
 
     instance = get_object_or_404(config["model"], pk=pk)
     form_class = config["form"]
@@ -513,6 +551,7 @@ def model_update(request, model_name, pk):
         if isinstance(instance, AccountTransaction):
             instance.account.current_balance = instance.balance_after
             instance.account.save(update_fields=["current_balance", "updated_at"])
+        log_activity(request, "update", model_name, instance, f"Updated {config['title']} record.")
         messages.success(request, f"{config['title']} record updated.")
         return redirect("model-list", model_name=model_name)
 
@@ -529,11 +568,16 @@ def model_delete(request, model_name, pk):
     if not config:
         return render(request, "core/404.html", status=404)
     require_module_access(request, model_name)
+    if config.get("readonly"):
+        messages.error(request, f"{config['title']} records are read-only.")
+        return redirect("model-list", model_name=model_name)
 
     instance = get_object_or_404(config["model"], pk=pk)
     if request.method == "POST":
         try:
+            object_repr = str(instance)
             instance.delete()
+            log_activity(request, "delete", model_name, object_repr, f"Deleted {config['title']} record.")
             messages.success(request, f"{config['title']} record deleted.")
         except ProtectedError:
             messages.error(request, "This record is linked to other records and cannot be deleted.")
@@ -555,6 +599,7 @@ def post_transaction(request):
             data = form.cleaned_data.copy()
             data["staff"] = data.pop("created_by")
             transaction_record = post_account_transaction(**data)
+            log_activity(request, "workflow", "account-transactions", transaction_record, "Posted account transaction.")
             messages.success(request, f"Transaction posted. New balance: UGX {transaction_record.balance_after:,.0f}.")
             return redirect("model-list", model_name="account-transactions")
         except Exception as exc:
@@ -589,6 +634,7 @@ def loan_action(request, pk, action):
     if request.method == "POST":
         try:
             actions[action](loan=loan)
+            log_activity(request, "workflow", "loans", loan, f"Loan {action} action completed.")
             messages.success(request, f"Loan {loan.loan_no} {action}d successfully.")
         except Exception as exc:
             messages.error(request, str(exc))
@@ -614,6 +660,7 @@ def loan_repayment(request, pk):
     if request.method == "POST" and form.is_valid():
         try:
             repayment = record_loan_repayment(loan=loan, **form.cleaned_data)
+            log_activity(request, "workflow", "loan-repayments", repayment, "Recorded loan repayment.")
             messages.success(request, f"Repayment recorded. Outstanding balance: UGX {repayment.balance_outstanding:,.0f}.")
             return redirect("model-list", model_name="loan-repayments")
         except Exception as exc:

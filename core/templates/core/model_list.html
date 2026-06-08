@@ -9,7 +9,9 @@
                 {% if model_name == "account-transactions" %}
                     <a class="primary-button auth-link" href="{% url 'post-transaction' %}">Post Transaction</a>
                 {% endif %}
-                <a class="primary-button auth-link" href="{% url 'model-create' model_name %}">New Record</a>
+                {% if not readonly %}
+                    <a class="primary-button auth-link" href="{% url 'model-create' model_name %}">New Record</a>
+                {% endif %}
             </div>
         </div>
         <form class="dashboard-filter" method="get">
@@ -43,8 +45,12 @@
                         <tr>
                             {% for value in row.values %}<td>{{ value }}</td>{% endfor %}
                             <td>
-                                <a class="mini-button" href="{% url 'model-update' model_name row.object.pk %}">Edit</a>
-                                <a class="mini-button danger" href="{% url 'model-delete' model_name row.object.pk %}">Delete</a>
+                                {% if readonly %}
+                                    <span class="pill blue">Read only</span>
+                                {% else %}
+                                    <a class="mini-button" href="{% url 'model-update' model_name row.object.pk %}">Edit</a>
+                                    <a class="mini-button danger" href="{% url 'model-delete' model_name row.object.pk %}">Delete</a>
+                                {% endif %}
                                 {% if model_name == "loans" %}
                                     {% if row.object.status == "Applied" %}
                                         <a class="mini-button" href="{% url 'loan-action' row.object.pk 'approve' %}">Approve</a>

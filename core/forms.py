@@ -4,6 +4,7 @@ from .models import (
     Account,
     AccountTransaction,
     AccountType,
+    ActivityLog,
     Branch,
     Guarantor,
     Loan,
@@ -174,3 +175,9 @@ class RecordRepaymentForm(forms.Form):
     interest = forms.DecimalField(min_value=0, max_digits=18, decimal_places=2)
     payment_method = forms.ModelChoiceField(queryset=PaymentMethod.objects.filter(status="Active"))
     received_by = forms.ModelChoiceField(queryset=Staff.objects.filter(status="Active"))
+
+
+class ActivityLogForm(forms.ModelForm):
+    class Meta:
+        model = ActivityLog
+        fields = []

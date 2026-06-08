@@ -4,6 +4,7 @@ from .models import (
     Account,
     AccountTransaction,
     AccountType,
+    ActivityLog,
     Branch,
     Guarantor,
     Loan,
@@ -58,3 +59,11 @@ admin.site.register(LoanType)
 admin.site.register(Guarantor)
 admin.site.register(LoanGuarantor)
 admin.site.register(LoanRepayment)
+
+
+@admin.register(ActivityLog)
+class ActivityLogAdmin(admin.ModelAdmin):
+    list_display = ("created_at", "user", "action", "module", "object_repr", "ip_address")
+    search_fields = ("user__username", "action", "module", "object_repr", "description", "ip_address")
+    list_filter = ("action", "module", "created_at")
+    readonly_fields = ("user", "action", "module", "object_repr", "description", "ip_address", "user_agent", "created_at")

@@ -1,4 +1,5 @@
 from django.core.validators import MinValueValidator
+from django.conf import settings
 from django.db import models
 
 
@@ -259,3 +260,37 @@ class LoanRepayment(models.Model):
 
     def __str__(self):
         return f"{self.loan} installment {self.installment_no}"
+
+
+class ActivityLog(models.Model):
+    ACTION_CHOICES = [
+        ("login", "Login"),
+        ("logout", "Logout"),
+        ("login_failed", "Failed Login"),
+        ("create", "Create"),
+        ("update", "Update"),
+        ("delete", "Delete"),
+        ("workflow", "Workflow"),
+        ("denied", "Access Denied"),
+    ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True)
+    action = models.CharField(max_length=30, choices=ACTION_CHOICES)
+    module = models.CharField(max_length=80, blank=True)
+    object_repr = models.CharField(max_length=255, blank=True)
+    description = models.TextField(blank=True)
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
+    user_agent = models.CharField(max_length=255, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ["-created_at"]
+        indexes = [
+            models.Index(fields=["user", "created_at"]),
+            models.Index(fields=["action", "created_at"]),
+            models.Index(fields=["module", "created_at"]),
+        ]
+
+    def __str__(self):
+        actor = self.user.username if self.user else "System"
+        return f"{actor} {self.action} {self.module}".strip()
