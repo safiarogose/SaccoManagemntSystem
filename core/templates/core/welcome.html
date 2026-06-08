@@ -362,8 +362,8 @@
         <section class="public-hero" style="background-image: linear-gradient(90deg, rgba(0, 13, 131, 0.92) 0%, rgba(0, 28, 130, 0.74) 48%, rgba(0, 13, 131, 0.08) 100%), url('{% static 'images/sacco-hero.png' %}');">
             <div class="public-hero-copy">
                 <p class="public-script">Welcome to PPSW SACCO</p>
-                <h1>Growing together through savings, welfare, and affordable credit.</h1>
-                <p>We help members build financial confidence through secure savings, fair loans, welfare support, and accountable SACCO management.</p>
+                <h1>Your trusted SACCO partner for savings, welfare, and affordable credit.</h1>
+                <p>Parliamentary Police Saving Welfare SACCO helps members save consistently, access fair loans, and track every account with confidence.</p>
                 <div class="public-actions">
                     <a class="public-button dark" href="{% url 'login' %}?next={% url 'dashboard' %}">Access Member Portal</a>
                     <a class="public-button light" href="#services">Explore Services</a>
@@ -373,21 +373,21 @@
 
         <section class="public-growth" aria-label="SACCO highlights">
             <div>
-                <h2>Our Growth Highlights</h2>
-                <p>Serving members with transparent records and dependable SACCO services.</p>
+                <h2>SACCO At A Glance</h2>
+                <p>Live service highlights from the management system.</p>
             </div>
-            <article><strong>Save</strong><span>Regular member savings</span></article>
-            <article><strong>Borrow</strong><span>Affordable credit support</span></article>
-            <article><strong>Grow</strong><span>Share capital and welfare</span></article>
-            <article><strong>Trust</strong><span>Clear member records</span></article>
+            <article><strong>{{ active_members|default:0 }}</strong><span>Active members</span></article>
+            <article><strong>{{ total_members|default:0 }}</strong><span>Total registered members</span></article>
+            <article><strong>UGX {{ total_savings|floatformat:0 }}</strong><span>Member savings tracked</span></article>
+            <article><strong>{{ active_loans|default:0 }}</strong><span>Active loan files</span></article>
         </section>
 
         <section class="public-section public-about" id="about">
             <div>
                 <p class="public-kicker">About The SACCO</p>
-                <h2>A member-owned financial partner for disciplined saving and welfare support.</h2>
+                <h2>A member-owned financial partner for disciplined saving and dependable welfare support.</h2>
             </div>
-            <p>PPSW SACCO exists to strengthen the financial wellbeing of its members. The SACCO encourages regular saving, provides access to responsible credit, and keeps member records organized for quick service and clear accountability.</p>
+            <p>PPSW SACCO exists to strengthen the financial wellbeing of its members. The SACCO encourages regular saving, provides access to responsible credit, and keeps member records organized for quick service, clear reporting, and accountability.</p>
         </section>
 
         <section class="public-section" id="services">
@@ -431,7 +431,7 @@
             <div>
                 <p class="public-kicker">Get Started</p>
                 <h2>Ready to save, borrow, or check your SACCO account?</h2>
-                <p>Use the member portal to sign in, or contact the SACCO office for registration and support.</p>
+                <p>Use the member portal to sign in, or contact the SACCO office for registration, loan support, savings updates, and branch assistance{% if branch_count %} across {{ branch_count }} branch{{ branch_count|pluralize:"es" }}{% endif %}.</p>
             </div>
             <a class="public-button dark" href="{% url 'login' %}?next={% url 'dashboard' %}">Go To Member Portal</a>
         </section>

@@ -186,10 +186,22 @@ def shifted_month(year, month, offset):
 
 
 def home(request):
+    active_members = Member.objects.filter(status="Active").count()
+    total_members = Member.objects.count()
+    total_savings = Account.objects.aggregate(total=Sum("current_balance"))["total"] or 0
+    active_loans = Loan.objects.exclude(status__in=["Cleared", "Rejected"]).count()
+
     return render(
         request,
         "core/welcome.html",
-        {"page_title": "Welcome"},
+        {
+            "page_title": "Welcome To PPSW SACCO",
+            "active_members": active_members,
+            "total_members": total_members,
+            "total_savings": total_savings,
+            "active_loans": active_loans,
+            "branch_count": Branch.objects.count(),
+        },
     )
 
 
