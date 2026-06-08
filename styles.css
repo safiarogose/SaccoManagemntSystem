@@ -1920,7 +1920,9 @@ tr.is-hidden {
 .auth-portal-page {
     position: relative;
     overflow-x: hidden;
-    background: #eef2f4;
+    background:
+        linear-gradient(135deg, rgba(0, 13, 131, 0.86), rgba(42, 63, 84, 0.72)),
+        url("images/sacco-hero.png") center / cover fixed;
 }
 
 .auth-shell {
@@ -1932,11 +1934,12 @@ tr.is-hidden {
 
 .auth-card {
     width: min(430px, 100%);
-    padding: 32px;
-    border: 1px solid var(--line);
-    border-radius: 6px;
+    overflow: hidden;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+    border-radius: 10px;
     background: var(--surface);
-    box-shadow: 0 14px 38px rgba(42, 63, 84, 0.12);
+    box-shadow: 0 24px 70px rgba(0, 13, 131, 0.28);
 }
 
 .auth-visual {
@@ -2007,7 +2010,7 @@ tr.is-hidden {
     justify-content: center;
     min-height: 40px;
     padding: 0 14px;
-    border-radius: 4px;
+    border-radius: 999px;
     background: #ffffff;
     color: #000d83;
     font-size: 13px;
@@ -2020,9 +2023,11 @@ tr.is-hidden {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 30px;
-    padding-bottom: 18px;
-    border-bottom: 1px solid var(--line);
+    margin: 0;
+    padding: 24px 28px;
+    border-bottom: 0;
+    background: #000d83;
+    color: #ffffff;
 }
 
 .auth-brand strong,
@@ -2032,16 +2037,17 @@ tr.is-hidden {
 
 .auth-brand span {
     margin-top: 3px;
-    color: var(--muted);
+    color: rgba(255, 255, 255, 0.76);
     font-size: 12px;
 }
 
 .auth-heading {
-    margin-bottom: 18px;
+    margin: 0 28px 18px;
+    padding-top: 28px;
 }
 
 .auth-heading h1 {
-    font-size: 30px;
+    font-size: 32px;
     font-weight: 700;
     line-height: 1.12;
 }
@@ -2055,7 +2061,7 @@ tr.is-hidden {
 .auth-form {
     grid-template-columns: 1fr;
     gap: 12px;
-    padding: 0;
+    padding: 0 28px;
 }
 
 .auth-form label {
@@ -2063,25 +2069,26 @@ tr.is-hidden {
 }
 
 .auth-form input {
-    min-height: 46px;
-    border-radius: 4px;
+    min-height: 48px;
+    border-color: #dbe7ef;
+    border-radius: 6px;
     background: #f8fafc;
 }
 
 .auth-submit {
-    min-height: 48px;
-    margin-top: 4px;
-    border-radius: 4px;
+    min-height: 50px;
+    margin-top: 6px;
+    border-radius: 6px;
     background: #000d83;
     font-weight: 800;
-    box-shadow: none;
+    box-shadow: 0 10px 24px rgba(0, 13, 131, 0.18);
 }
 
 .auth-footnote {
-    margin-top: 22px;
+    margin: 24px 28px 28px;
     padding: 14px 16px;
     border: 1px solid #dbe7ef;
-    border-radius: 4px;
+    border-radius: 6px;
     background: #f7fbfd;
 }
 
