@@ -1,8 +1,10 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import Group, User
 from django.core.exceptions import PermissionDenied
 from django.core.exceptions import FieldDoesNotExist
+from django.db import DatabaseError
 from django.core.paginator import Paginator
 from django.db.models import ProtectedError
 from django.db.models import Count, Q, Sum
@@ -30,6 +32,8 @@ from .forms import (
     ProductForm,
     RecordRepaymentForm,
     RoleForm,
+    SaccoGroupForm,
+    SaccoUserForm,
     StaffForm,
     TransactionTypeForm,
 )
@@ -79,6 +83,8 @@ PAGES = {
     "reports": "Reports",
     "settings": "Settings",
     "activity-logs": "Activity Logs",
+    "users": "Users",
+    "groups": "Groups",
 }
 
 
@@ -94,6 +100,8 @@ PAGE_MODEL_ROUTES = {
     "products": "products",
     "settings": "records",
     "activity-logs": "activity-logs",
+    "users": "users",
+    "groups": "groups",
 }
 
 
@@ -114,6 +122,8 @@ MODEL_VIEWS = {
     "loan-guarantors": {"model": LoanGuarantor, "form": LoanGuarantorForm, "title": "Loan Guarantors", "columns": ["loan", "guarantor", "guaranteed_amount"], "search": ["loan__loan_no", "guarantor__first_name", "guarantor__last_name"]},
     "loan-repayments": {"model": LoanRepayment, "form": LoanRepaymentForm, "title": "Loan Repayments", "columns": ["repayment_date", "loan", "installment_no", "amount_paid", "balance_outstanding", "received_by"], "search": ["loan__loan_no", "loan__member__member_no"]},
     "activity-logs": {"model": ActivityLog, "form": ActivityLogForm, "title": "Activity Logs", "columns": ["created_at", "user", "action", "module", "object_repr", "ip_address"], "search": ["user__username", "action", "module", "object_repr", "description", "ip_address"], "readonly": True},
+    "users": {"model": User, "form": SaccoUserForm, "title": "Users", "columns": ["username", "first_name", "last_name", "email", "is_staff", "is_active"], "search": ["username", "first_name", "last_name", "email"]},
+    "groups": {"model": Group, "form": SaccoGroupForm, "title": "Groups", "columns": ["name"], "search": ["name"]},
 }
 
 
@@ -134,6 +144,8 @@ MODEL_PERMISSIONS = {
     "loan-guarantors": {"Administrator", "Manager", "Loans Officer", "Auditor"},
     "loan-repayments": {"Administrator", "Teller", "Accountant", "Auditor"},
     "activity-logs": {"Administrator", "Manager", "Auditor"},
+    "users": {"Administrator"},
+    "groups": {"Administrator"},
 }
 
 
@@ -214,10 +226,18 @@ def shifted_month(year, month, offset):
 
 
 def home(request):
-    active_members = Member.objects.filter(status="Active").count()
-    total_members = Member.objects.count()
-    total_savings = Account.objects.aggregate(total=Sum("current_balance"))["total"] or 0
-    active_loans = Loan.objects.exclude(status__in=["Cleared", "Rejected"]).count()
+    try:
+        active_members = Member.objects.filter(status="Active").count()
+        total_members = Member.objects.count()
+        total_savings = Account.objects.aggregate(total=Sum("current_balance"))["total"] or 0
+        active_loans = Loan.objects.exclude(status__in=["Cleared", "Rejected"]).count()
+        branch_count = Branch.objects.count()
+    except DatabaseError:
+        active_members = 0
+        total_members = 0
+        total_savings = 0
+        active_loans = 0
+        branch_count = 0
 
     return render(
         request,
@@ -228,7 +248,7 @@ def home(request):
             "total_members": total_members,
             "total_savings": total_savings,
             "active_loans": active_loans,
-            "branch_count": Branch.objects.count(),
+            "branch_count": branch_count,
         },
     )
 
@@ -481,6 +501,8 @@ def model_list(request, model_name):
     require_module_access(request, model_name)
 
     queryset = config["model"].objects.all()
+    if not queryset.ordered:
+        queryset = queryset.order_by("pk")
     query = request.GET.get("q", "").strip()
     if query:
         conditions = Q()
