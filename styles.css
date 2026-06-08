@@ -1920,54 +1920,67 @@ tr.is-hidden {
 .auth-portal-page {
     position: relative;
     overflow-x: hidden;
-    background: linear-gradient(135deg, #eef4f8 0%, #ffffff 52%, #edf4fb 100%);
+    background:
+        linear-gradient(135deg, rgba(0, 13, 131, 0.06), transparent 28%),
+        linear-gradient(145deg, #eef4f8 0%, #ffffff 48%, #edf4fb 100%);
 }
 
 .auth-shell {
     display: grid;
-    grid-template-columns: minmax(360px, 470px) minmax(320px, 430px);
+    grid-template-columns: minmax(360px, 460px) minmax(340px, 440px);
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 0;
     min-height: 100vh;
     padding: 76px 24px 40px;
 }
 
 .auth-card {
     width: 100%;
-    padding: 34px;
+    min-height: 560px;
+    padding: 38px;
     border: 1px solid var(--line);
-    border-radius: 8px;
+    border-right: 0;
+    border-radius: 10px 0 0 10px;
     background: var(--surface);
-    box-shadow: 0 18px 46px rgba(42, 63, 84, 0.14);
+    box-shadow: 0 24px 70px rgba(42, 63, 84, 0.16);
 }
 
 .auth-visual {
+    position: relative;
     display: grid;
     align-items: center;
-    min-height: 420px;
-    padding: 34px;
-    border: 1px solid #dbe7ef;
-    border-radius: 8px;
-    background: #f7fbfd;
-    color: var(--ink);
+    min-height: 560px;
+    overflow: hidden;
+    padding: 38px;
+    border-radius: 0 10px 10px 0;
+    background:
+        linear-gradient(145deg, rgba(0, 13, 131, 0.94), rgba(0, 28, 130, 0.76)),
+        url("images/sacco-hero.png") center / cover;
+    color: #ffffff;
 }
 
 .auth-visual-content {
+    position: relative;
+    z-index: 1;
     max-width: 360px;
+}
+
+.auth-visual .hero-script {
+    color: rgba(255, 255, 255, 0.9);
 }
 
 .auth-visual h1 {
     max-width: 360px;
-    font-size: 32px;
+    font-size: 38px;
     font-weight: 700;
-    line-height: 1.15;
+    line-height: 1.08;
 }
 
 .auth-visual p:not(.hero-script) {
     max-width: 360px;
     margin: 14px 0 0;
-    color: var(--muted);
+    color: rgba(255, 255, 255, 0.82);
     font-size: 15px;
     line-height: 1.6;
 }
@@ -1986,18 +1999,18 @@ tr.is-hidden {
     gap: 12px;
     min-height: 56px;
     padding: 12px 14px;
-    border: 1px solid #dbe7ef;
+    border: 1px solid rgba(255, 255, 255, 0.28);
     border-radius: 6px;
-    background: #ffffff;
+    background: rgba(255, 255, 255, 0.12);
 }
 
 .auth-visual-stats strong {
-    color: #000d83;
+    color: #ffffff;
     font-size: 18px;
 }
 
 .auth-visual-stats span {
-    color: var(--muted);
+    color: rgba(255, 255, 255, 0.74);
     font-size: 12px;
     font-weight: 800;
     text-transform: uppercase;
@@ -2026,7 +2039,7 @@ tr.is-hidden {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 28px;
+    margin-bottom: 30px;
     padding-bottom: 18px;
     border-bottom: 1px solid var(--line);
 }
@@ -2047,8 +2060,9 @@ tr.is-hidden {
 }
 
 .auth-heading h1 {
-    font-size: 32px;
+    font-size: 34px;
     font-weight: 700;
+    line-height: 1.12;
 }
 
 .auth-heading p:not(.eyebrow) {
@@ -2059,6 +2073,7 @@ tr.is-hidden {
 
 .auth-form {
     grid-template-columns: 1fr;
+    gap: 14px;
     padding: 0;
 }
 
@@ -2067,24 +2082,25 @@ tr.is-hidden {
 }
 
 .auth-form input {
-    min-height: 48px;
-    border-radius: 4px;
+    min-height: 50px;
+    border-radius: 6px;
     background: #f8fafc;
 }
 
 .auth-submit {
-    min-height: 50px;
-    margin-top: 4px;
-    border-radius: 4px;
+    min-height: 52px;
+    margin-top: 8px;
+    border-radius: 6px;
     background: #000d83;
     font-weight: 800;
+    box-shadow: 0 12px 28px rgba(0, 13, 131, 0.22);
 }
 
 .auth-footnote {
     margin-top: 22px;
     padding: 14px 16px;
     border: 1px solid #dbe7ef;
-    border-radius: 6px;
+    border-radius: 8px;
     background: #f7fbfd;
 }
 
@@ -2326,11 +2342,15 @@ tr.is-hidden {
     .auth-visual {
         min-height: 0;
         padding: 24px;
+        border-radius: 8px;
     }
 
     .auth-card {
         width: min(560px, calc(100% - 32px));
         margin: 0 auto;
+        min-height: 0;
+        border-right: 1px solid var(--line);
+        border-radius: 8px;
     }
 
     .auth-home-link {
