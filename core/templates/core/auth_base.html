@@ -10,18 +10,6 @@
 <body class="gentelella-theme auth-page auth-portal-page">
     <a class="auth-home-link" href="{% url 'home' %}">Back to SACCO Home</a>
     <main class="auth-shell">
-        <section class="auth-visual" aria-label="SACCO portal introduction">
-            <div class="auth-visual-content">
-                <p class="hero-script">Member Portal</p>
-                <h1>Welcome back to PPSW SACCO.</h1>
-                <p>Sign in to manage members, savings accounts, loan workflows, repayments, and SACCO reports with confidence.</p>
-                <div class="auth-visual-stats">
-                    <div><strong>Secure</strong><span>staff access</span></div>
-                    <div><strong>Live</strong><span>member records</span></div>
-                    <div><strong>Clear</strong><span>loan tracking</span></div>
-                </div>
-            </div>
-        </section>
         <section class="auth-card">
             <div class="auth-brand">
                 <div class="brand-mark" aria-hidden="true">
@@ -45,6 +33,18 @@
             {% endif %}
 
             {% block auth_content %}{% endblock %}
+        </section>
+        <section class="auth-visual" aria-label="SACCO portal introduction">
+            <div class="auth-visual-content">
+                <p class="hero-script">Member Portal</p>
+                <h1>Welcome back to PPSW SACCO.</h1>
+                <p>Sign in to manage members, savings accounts, loan workflows, repayments, and SACCO reports with confidence.</p>
+                <div class="auth-visual-stats">
+                    <div><strong>Secure</strong><span>Staff access</span></div>
+                    <div><strong>Live</strong><span>Member records</span></div>
+                    <div><strong>Clear</strong><span>Loan tracking</span></div>
+                </div>
+            </div>
         </section>
     </main>
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
