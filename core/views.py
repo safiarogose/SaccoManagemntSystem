@@ -243,7 +243,7 @@ def home(request):
         request,
         "core/welcome.html",
         {
-            "page_title": "Welcome To parliamentary police savings welfare sacco ",
+            "page_title": "Welcome To PPSW SACCO",
             "active_members": active_members,
             "total_members": total_members,
             "total_savings": total_savings,
