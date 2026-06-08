@@ -9,8 +9,9 @@ def env_bool(name, default=False):
     return os.environ.get(name, str(default)).lower() in {"1", "true", "yes", "on"}
 
 
+IS_VERCEL = bool(os.environ.get("VERCEL"))
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY", "dev-only-parliamentary-police-sacco-key")
-DEBUG = env_bool("DJANGO_DEBUG", True)
+DEBUG = env_bool("DJANGO_DEBUG", not IS_VERCEL)
 ALLOWED_HOSTS = [
     host.strip()
     for host in os.environ.get("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,.vercel.app").split(",")
@@ -66,7 +67,7 @@ WSGI_APPLICATION = "sacco_system.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "NAME": os.environ.get("SQLITE_PATH") or ("/tmp/db.sqlite3" if IS_VERCEL else BASE_DIR / "db.sqlite3"),
     }
 }
 
