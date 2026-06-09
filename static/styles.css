@@ -2687,7 +2687,7 @@ td {
     grid-template-columns: 1fr;
     place-items: center;
     min-height: 100vh;
-    padding: 78px 18px 34px;
+    padding: 64px 18px;
 }
 
 .auth-portal-page .auth-visual {
@@ -2705,13 +2705,22 @@ td {
 }
 
 .auth-portal-page .auth-brand {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
     border-bottom: 1px solid #dbe3ea;
     background: #ffffff;
     color: #2a3f54;
+    text-align: center;
 }
 
 .auth-portal-page .auth-brand span {
     color: #73879c;
+}
+
+.auth-portal-page .auth-heading,
+.auth-portal-page .auth-footnote {
+    text-align: center;
 }
 
 @media print {
