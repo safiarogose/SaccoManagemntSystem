@@ -13,7 +13,7 @@ def bootstrap_vercel_database():
 
     call_command("migrate", interactive=False, verbosity=0)
 
-    if env_bool("VERCEL_SEED_DEMO", True) or live_database_needs_seed():
+    if env_bool("VERCEL_SEED_DEMO", False) or live_database_needs_seed():
         call_command("seed_demo", verbosity=0)
 
     admin_username = os.environ.get("VERCEL_ADMIN_USERNAME", "").strip()
@@ -52,6 +52,9 @@ def bootstrap_vercel_database():
 
 
 def live_database_needs_seed():
-    from core.models import Product
+    from core.models import Account, Branch, Loan, Member, Product, Staff
 
-    return not Product.objects.exists()
+    return not all(
+        model.objects.exists()
+        for model in (Branch, Staff, Product, Member, Account, Loan)
+    )

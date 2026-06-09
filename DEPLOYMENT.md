@@ -43,7 +43,7 @@ Change this password before real use from Django admin or by creating a new supe
 - Put HTTPS in front of the app. `DJANGO_SECURE_SSL_REDIRECT` defaults to `True` when `DJANGO_DEBUG=False`.
 - Enable `DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=True` and `DJANGO_SECURE_HSTS_PRELOAD=True` only when every production subdomain is served through HTTPS.
 - Vercel auto-migration is enabled by default through `VERCEL_AUTO_MIGRATE=True` so fresh `/tmp` SQLite deployments do not crash with missing tables. If a fresh database has no users, the system creates the documented demo admin login `admin / admin123`; set `VERCEL_ADMIN_USERNAME` and `VERCEL_ADMIN_PASSWORD` to override it, then change the password before real use.
-- Vercel seeds the full demo dashboard by default through `VERCEL_SEED_DEMO=True`, including Products, Members, Accounts, Loans, Transactions, and the `safia / admin123` demo login. Set `VERCEL_SEED_DEMO=False` only if you intentionally want a blank live database.
+- Vercel seeds the full demo dashboard when core dashboard records are missing. Set `VERCEL_SEED_DEMO=True` to force demo seeding on startup.
 
 ## Vercel Ready-To-Work Setup
 
@@ -56,7 +56,7 @@ DJANGO_DEBUG=False
 DJANGO_ALLOWED_HOSTS=.vercel.app,your-domain.com
 DJANGO_CSRF_TRUSTED_ORIGINS=https://your-domain.com
 VERCEL_AUTO_MIGRATE=True
-VERCEL_SEED_DEMO=True
+VERCEL_SEED_DEMO=False
 ```
 
-Redeploy after saving the variables. The first live startup will run migrations and seed the dashboard records. For real data entry after launch, keep `DATABASE_URL` set so Products, Members, Accounts, Loans, and Transactions persist.
+Redeploy after saving the variables. The first live startup will run migrations and seed the dashboard records if the database is empty or only partly initialized. For real data entry after launch, keep `DATABASE_URL` set so Products, Members, Accounts, Loans, and Transactions persist.
