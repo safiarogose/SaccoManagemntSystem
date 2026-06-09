@@ -38,4 +38,4 @@ Change this password before real use from Django admin or by creating a new supe
 - Use a production database for multi-user real deployment. SQLite is acceptable only for small local/internal testing.
 - Put HTTPS in front of the app. `DJANGO_SECURE_SSL_REDIRECT` defaults to `True` when `DJANGO_DEBUG=False`.
 - Enable `DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=True` and `DJANGO_SECURE_HSTS_PRELOAD=True` only when every production subdomain is served through HTTPS.
-- Vercel auto-migration is enabled by default through `VERCEL_AUTO_MIGRATE=True` so fresh `/tmp` SQLite deployments do not crash with missing tables. Demo data and admin creation remain disabled unless `VERCEL_SEED_DEMO=True` or `VERCEL_ADMIN_USERNAME` plus `VERCEL_ADMIN_PASSWORD` are set.
+- Vercel auto-migration is enabled by default through `VERCEL_AUTO_MIGRATE=True` so fresh `/tmp` SQLite deployments do not crash with missing tables. If a fresh database has no users, the system creates the documented demo admin login `admin / admin123`; set `VERCEL_ADMIN_USERNAME` and `VERCEL_ADMIN_PASSWORD` to override it, then change the password before real use.

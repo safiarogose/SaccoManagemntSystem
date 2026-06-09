@@ -19,6 +19,15 @@ def bootstrap_vercel_database():
     admin_username = os.environ.get("VERCEL_ADMIN_USERNAME", "").strip()
     admin_password = os.environ.get("VERCEL_ADMIN_PASSWORD", "")
     if not admin_username or not admin_password:
+        from django.contrib.auth import get_user_model
+
+        User = get_user_model()
+        if User.objects.exists():
+            return
+        admin_username = "admin"
+        admin_password = "admin123"
+
+    if not admin_username or not admin_password:
         return
 
     from django.contrib.auth import get_user_model
