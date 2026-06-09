@@ -26,6 +26,9 @@ CSRF_TRUSTED_ORIGINS = [
 ]
 if os.environ.get("VERCEL_URL"):
     CSRF_TRUSTED_ORIGINS.append(f"https://{os.environ['VERCEL_URL']}")
+if IS_VERCEL:
+    CSRF_TRUSTED_ORIGINS.append("https://*.vercel.app")
+CSRF_TRUSTED_ORIGINS = list(dict.fromkeys(CSRF_TRUSTED_ORIGINS))
 
 INSTALLED_APPS = [
     "django.contrib.admin",
