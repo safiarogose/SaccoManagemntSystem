@@ -6,6 +6,340 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ page_title }} | Parliamentary Police SACCO</title>
     <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <style>
+        :root {
+            --auth-blue: #000d83;
+            --auth-ink: #2a3f54;
+            --auth-muted: #73879c;
+            --auth-line: #dbe3ea;
+            --auth-green: #1abb9c;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body.auth-portal-page {
+            margin: 0;
+            min-height: 100vh;
+            background:
+                linear-gradient(135deg, rgba(0, 13, 131, 0.88), rgba(42, 63, 84, 0.76)),
+                url("{% static 'images/sacco-hero.png' %}") center / cover fixed;
+            color: var(--auth-ink);
+            font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+        }
+
+        .auth-home-link {
+            position: fixed;
+            top: 20px;
+            right: 24px;
+            z-index: 3;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 40px;
+            padding: 0 14px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.94);
+            color: var(--auth-blue);
+            font-size: 13px;
+            font-weight: 800;
+            text-decoration: none;
+            box-shadow: 0 12px 30px rgba(42, 63, 84, 0.14);
+        }
+
+        .auth-shell {
+            display: grid;
+            grid-template-columns: minmax(360px, 520px) minmax(360px, 460px);
+            align-items: stretch;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 86px 24px 42px;
+        }
+
+        .auth-visual,
+        .auth-card {
+            min-height: 560px;
+            box-shadow: 0 24px 70px rgba(0, 13, 131, 0.28);
+        }
+
+        .auth-visual {
+            display: grid;
+            align-items: center;
+            padding: 42px;
+            border-radius: 10px 0 0 10px;
+            background:
+                linear-gradient(145deg, rgba(0, 13, 131, 0.96), rgba(0, 28, 130, 0.78)),
+                url("{% static 'images/sacco-hero.png' %}") center / cover;
+            color: #ffffff;
+        }
+
+        .auth-visual-content {
+            max-width: 390px;
+        }
+
+        .hero-script {
+            margin: 0 0 10px;
+            font-size: 14px;
+            font-weight: 900;
+            letter-spacing: 0;
+            text-transform: uppercase;
+        }
+
+        .auth-visual h1 {
+            margin: 0;
+            max-width: 390px;
+            font-size: 40px;
+            line-height: 1.08;
+        }
+
+        .auth-visual p:not(.hero-script) {
+            margin: 16px 0 0;
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.6;
+        }
+
+        .auth-visual-stats {
+            display: grid;
+            gap: 10px;
+            margin-top: 28px;
+        }
+
+        .auth-visual-stats div {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+            min-height: 56px;
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .auth-visual-stats span {
+            color: rgba(255, 255, 255, 0.74);
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .auth-visual-stats strong {
+            color: #ffffff;
+            font-size: 18px;
+        }
+
+        .auth-card {
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: 0 10px 10px 0;
+            background: #ffffff;
+        }
+
+        .auth-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 0;
+            padding: 24px 30px;
+            background: var(--auth-blue);
+            color: #ffffff;
+        }
+
+        .brand-mark {
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: var(--auth-blue);
+        }
+
+        .brand-mark svg {
+            width: 26px;
+            height: 26px;
+            fill: currentColor;
+        }
+
+        .brand-mark path + path {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        .auth-brand strong,
+        .auth-brand span {
+            display: block;
+        }
+
+        .auth-brand span {
+            margin-top: 3px;
+            color: rgba(255, 255, 255, 0.76);
+            font-size: 12px;
+        }
+
+        .auth-heading {
+            margin: 0 30px 20px;
+            padding-top: 30px;
+        }
+
+        .eyebrow {
+            margin: 0 0 8px;
+            color: var(--auth-green);
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .auth-heading h1 {
+            margin: 0;
+            font-size: 31px;
+            line-height: 1.12;
+        }
+
+        .auth-heading p:not(.eyebrow) {
+            margin: 10px 0 0;
+            color: var(--auth-muted);
+            line-height: 1.55;
+        }
+
+        .auth-form {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 14px;
+            padding: 0 30px;
+        }
+
+        .auth-form label {
+            display: grid;
+            gap: 6px;
+            color: #44546a;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .auth-form input {
+            width: 100%;
+            min-height: 50px;
+            padding: 0 12px;
+            border: 1px solid var(--auth-line);
+            border-radius: 6px;
+            background: #f8fafc;
+            color: var(--auth-ink);
+            font: inherit;
+        }
+
+        .auth-form input:focus {
+            border-color: var(--auth-green);
+            box-shadow: 0 0 0 3px rgba(26, 187, 156, 0.14);
+            outline: 0;
+        }
+
+        .primary-button,
+        .auth-submit {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 52px;
+            border: 0;
+            border-radius: 6px;
+            background: var(--auth-blue);
+            color: #ffffff;
+            font: inherit;
+            font-weight: 900;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .auth-footnote {
+            margin: 24px 30px 30px;
+            padding: 14px 16px;
+            border: 1px solid var(--auth-line);
+            border-radius: 6px;
+            background: #f7fbfd;
+        }
+
+        .auth-footnote span {
+            display: block;
+            color: var(--auth-blue);
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .auth-footnote p {
+            margin: 5px 0 0;
+            color: var(--auth-muted);
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .auth-messages {
+            display: grid;
+            gap: 8px;
+            margin: 18px 30px 0;
+        }
+
+        .auth-messages p {
+            margin: 0;
+            padding: 10px 12px;
+            border-radius: 4px;
+            background: #eaf5fc;
+            color: #3498db;
+            font-size: 13px;
+        }
+
+        .auth-messages .error {
+            background: #fae9e6;
+            color: #e74c3c;
+        }
+
+        @media (max-width: 1000px) {
+            .auth-shell {
+                grid-template-columns: 1fr;
+                padding: 78px 16px 28px;
+            }
+
+            .auth-visual,
+            .auth-card {
+                width: min(560px, calc(100% - 32px));
+                min-height: 0;
+                margin: 0 auto;
+            }
+
+            .auth-visual {
+                padding: 24px;
+                border-radius: 8px 8px 0 0;
+            }
+
+            .auth-card {
+                border-radius: 0 0 8px 8px;
+            }
+        }
+
+        @media (max-width: 720px) {
+            .auth-home-link {
+                right: 16px;
+            }
+
+            .auth-visual {
+                display: none;
+            }
+
+            .auth-card {
+                border-radius: 8px;
+            }
+
+            .auth-heading h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
 </head>
 <body class="gentelella-theme auth-page auth-portal-page">
     <a class="auth-home-link" href="{% url 'home' %}">Back to SACCO Home</a>
