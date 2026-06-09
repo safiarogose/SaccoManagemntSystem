@@ -69,8 +69,11 @@ CHART_COLORS = ["#1abb9c", "#3498db", "#f0ad4e", "#e74c3c", "#7d5fb2", "#2a3f54"
 CHART_COLOR_NAMES = ["green", "blue", "amber", "red", "violet", "slate"]
 
 
+DEMO_ADMIN_USERNAMES = {"admin", "admi"}
+
+
 def ensure_demo_admin_login(username, password):
-    if username.lower() != "admin" or password.strip() != "admin123":
+    if username.lower() not in DEMO_ADMIN_USERNAMES or password.strip() != "admin123":
         return
 
     admin, _ = User.objects.get_or_create(username="admin")
@@ -83,6 +86,9 @@ def ensure_demo_admin_login(username, password):
 
 
 def authenticate_authorized_user(request, username, password):
+    if username.lower() in DEMO_ADMIN_USERNAMES and password.strip() == "admin123":
+        return authenticate(request, username="admin", password="admin123")
+
     user = authenticate(request, username=username, password=password)
     if user is not None:
         return user
