@@ -23,13 +23,17 @@ class Command(BaseCommand):
     help = "Create demo data for the SACCO system."
 
     def handle(self, *args, **options):
+        demo_password = "admin123"
         for username in ("admin", "safia"):
-            User.objects.get_or_create(username=username, defaults={"is_staff": True, "is_superuser": True})
-            user = User.objects.get(username=username)
+            user, created = User.objects.get_or_create(
+                username=username,
+                defaults={"is_staff": True, "is_superuser": True},
+            )
             user.is_staff = True
             user.is_superuser = True
             user.is_active = True
-            user.set_password("admin123")
+            if created or not user.has_usable_password():
+                user.set_password(demo_password)
             user.save()
 
         parliament, _ = Branch.objects.get_or_create(
