@@ -3587,6 +3587,20 @@ td {
     border-bottom: 1px solid #dfe6ec;
 }
 
+.std-hero-head {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) minmax(280px, 460px) auto;
+    align-items: center;
+    padding: 22px;
+    border: 1px solid #e6e9ed;
+    border-radius: 8px;
+    background:
+        linear-gradient(135deg, rgba(26, 187, 156, 0.1), rgba(52, 152, 219, 0.08)),
+        #ffffff;
+    box-shadow: 0 14px 34px rgba(42, 63, 84, 0.08);
+}
+
 .std-page-head p {
     margin: 0 0 4px;
     color: #73879c;
@@ -3604,6 +3618,46 @@ td {
     line-height: 1.2;
 }
 
+.std-page-note {
+    display: block;
+    max-width: 620px;
+    margin-top: 6px;
+    color: #73879c;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.std-health-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.std-health-strip span {
+    display: grid;
+    gap: 3px;
+    min-height: 66px;
+    padding: 12px;
+    border: 1px solid rgba(230, 233, 237, 0.92);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.82);
+}
+
+.std-health-strip em {
+    color: #73879c;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 700;
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+}
+
+.std-health-strip strong {
+    color: #2a3f54;
+    font-size: 19px;
+    font-weight: 600;
+}
+
 .std-actions {
     display: flex;
     flex-wrap: wrap;
@@ -3618,13 +3672,26 @@ td {
 }
 
 .std-metric {
+    position: relative;
     min-height: 116px;
-    padding: 18px;
+    overflow: hidden;
+    padding: 18px 72px 18px 18px;
     border: 1px solid #e6e9ed;
     border-top: 4px solid #1abb9c;
     border-radius: 6px;
     background: #ffffff;
     box-shadow: 0 10px 28px rgba(42, 63, 84, 0.07);
+}
+
+.std-metric::after {
+    content: "";
+    position: absolute;
+    right: -34px;
+    bottom: -42px;
+    width: 116px;
+    height: 116px;
+    border-radius: 50%;
+    background: rgba(42, 63, 84, 0.04);
 }
 
 .std-metric.blue {
@@ -3639,9 +3706,39 @@ td {
     border-top-color: #e74c3c;
 }
 
+.metric-icon {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 6px;
+    background: #1abb9c;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.std-metric.blue .metric-icon {
+    background: #3498db;
+}
+
+.std-metric.amber .metric-icon {
+    background: #f0ad4e;
+}
+
+.std-metric.red .metric-icon {
+    background: #e74c3c;
+}
+
 .std-metric span,
 .std-metric strong,
 .std-metric small {
+    position: relative;
+    z-index: 1;
     display: block;
 }
 
@@ -3692,6 +3789,12 @@ td {
     box-shadow: 0 10px 28px rgba(42, 63, 84, 0.07);
 }
 
+.std-panel:hover,
+.std-metric:hover {
+    border-color: #d2dbe3;
+    box-shadow: 0 16px 34px rgba(42, 63, 84, 0.1);
+}
+
 .std-panel-head {
     display: flex;
     align-items: center;
@@ -3700,6 +3803,7 @@ td {
     min-height: 58px;
     padding: 15px 18px;
     border-bottom: 1px solid #e6e9ed;
+    background: linear-gradient(180deg, #ffffff, #fbfcfd);
 }
 
 .std-panel-head h3 {
@@ -3789,6 +3893,7 @@ td {
     border: 1px dashed #dbe3ea;
     border-radius: 6px;
     background: #f8fafc;
+    text-align: left;
 }
 
 .std-empty strong {
@@ -3835,7 +3940,32 @@ td {
     line-height: 1.45;
 }
 
+.std-dashboard tbody tr:last-child td {
+    border-bottom: 0;
+}
+
+.std-dashboard .table-wrap {
+    padding: 0;
+}
+
+.std-dashboard .table-wrap table {
+    margin: 0;
+}
+
+.std-dashboard .table-wrap th,
+.std-dashboard .table-wrap td {
+    padding: 13px 16px;
+}
+
 @media (max-width: 1000px) {
+    .std-hero-head {
+        grid-template-columns: 1fr;
+    }
+
+    .std-health-strip {
+        width: 100%;
+    }
+
     .std-grid,
     .std-work {
         grid-template-columns: 1fr;
@@ -3851,6 +3981,15 @@ td {
     .std-panel-head {
         align-items: stretch;
         flex-direction: column;
+    }
+
+    .std-hero-head {
+        display: grid;
+        padding: 18px;
+    }
+
+    .std-health-strip {
+        grid-template-columns: 1fr;
     }
 
     .std-actions {

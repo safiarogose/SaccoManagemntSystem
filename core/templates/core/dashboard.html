@@ -2,10 +2,16 @@
 
 {% block content %}
 <section class="view active-view std-dashboard">
-    <div class="std-page-head">
+    <div class="std-page-head std-hero-head">
         <div>
             <p>Operations Centre</p>
             <h2>SACCO Dashboard</h2>
+            <span class="std-page-note">Daily overview of members, savings, loans, arrears, and branch activity.</span>
+        </div>
+        <div class="std-health-strip" aria-label="Portfolio health summary">
+            <span><em>Savings Share</em><strong>{{ savings_share }}%</strong></span>
+            <span><em>Loans Share</em><strong>{{ loans_share }}%</strong></span>
+            <span><em>Arrears Risk</em><strong>{{ arrears_share }}%</strong></span>
         </div>
         <div class="std-actions">
             <a class="primary-button auth-link" href="{% url 'model-create' 'members' %}">New Member</a>
@@ -16,21 +22,25 @@
 
     <div class="std-metrics">
         <article class="std-metric green">
+            <span class="metric-icon">M</span>
             <span>Members</span>
             <strong>{{ active_members }}</strong>
             <small>{{ total_members }} registered</small>
         </article>
         <article class="std-metric blue">
+            <span class="metric-icon">S</span>
             <span>Account Balances</span>
             <strong>UGX {{ total_savings|floatformat:0 }}</strong>
             <small>{{ account_count }} accounts</small>
         </article>
         <article class="std-metric amber">
+            <span class="metric-icon">L</span>
             <span>Loan Book</span>
             <strong>UGX {{ loan_portfolio|floatformat:0 }}</strong>
             <small>{{ active_loan_count }} active loans</small>
         </article>
         <article class="std-metric red">
+            <span class="metric-icon">R</span>
             <span>Arrears</span>
             <strong>UGX {{ arrears|floatformat:0 }}</strong>
             <small>{{ arrears_count }} defaulted loans</small>
