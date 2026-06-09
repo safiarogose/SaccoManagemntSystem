@@ -13,7 +13,7 @@ def bootstrap_vercel_database():
 
     call_command("migrate", interactive=False, verbosity=0)
 
-    if env_bool("VERCEL_SEED_DEMO"):
+    if env_bool("VERCEL_SEED_DEMO", True):
         call_command("seed_demo", verbosity=0)
 
     admin_username = os.environ.get("VERCEL_ADMIN_USERNAME", "").strip()
