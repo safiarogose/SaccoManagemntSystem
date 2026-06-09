@@ -9,6 +9,11 @@
         </div>
         <form class="form-grid" method="post">
             {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="auth-messages full">
+                    <p class="error">{{ form.non_field_errors|striptags }}</p>
+                </div>
+            {% endif %}
             {% for field in form %}
                 <label class="{% if field.field.widget.input_type == 'textarea' %}full{% endif %}">
                     {{ field.label }}

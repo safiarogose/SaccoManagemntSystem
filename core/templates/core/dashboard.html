@@ -2,14 +2,29 @@
 
 {% block content %}
 <section class="view active-view standard-dashboard">
-    <div class="dashboard-hero">
-        <div>
+    <div class="dashboard-hero dashboard-standard-header">
+        <div class="dashboard-hero-copy">
             <p class="dashboard-kicker">Operations Centre</p>
-            <h2>Today at the SACCO</h2>
+            <h2>SACCO Dashboard</h2>
+            <p class="dashboard-intro">Daily overview of members, savings, loans, arrears, and branch activity.</p>
             <span class="system-state"><i></i> Member services active</span>
         </div>
+        <div class="dashboard-summary-strip" aria-label="Portfolio summary">
+            <div>
+                <span>Savings Share</span>
+                <strong>{{ savings_share }}%</strong>
+            </div>
+            <div>
+                <span>Loans Share</span>
+                <strong>{{ loans_share }}%</strong>
+            </div>
+            <div>
+                <span>Arrears Risk</span>
+                <strong>{{ arrears_share }}%</strong>
+            </div>
+        </div>
         <div class="dashboard-actions">
-            <a class="segmented active auth-link" href="{% url 'home' %}">Overview</a>
+            <a class="segmented active auth-link" href="{% url 'dashboard' %}">Overview</a>
             <a class="primary-button auth-link" href="{% url 'model-create' 'members' %}">New Member</a>
             <a class="ghost-button auth-link" href="{% url 'post-transaction' %}">Post Transaction</a>
         </div>
@@ -42,7 +57,7 @@
         </article>
     </div>
 
-    <div class="reference-dashboard-grid">
+    <div class="reference-dashboard-grid dashboard-analytics">
         <section class="panel report-card-large">
             <div class="panel-head">
                 <div>
@@ -188,7 +203,7 @@
         </section>
     </div>
 
-    <div class="dashboard-standard-grid">
+    <div class="dashboard-standard-grid dashboard-workbench">
         <section class="panel dashboard-primary">
             <div class="panel-head">
                 <div>

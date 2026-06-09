@@ -11,16 +11,13 @@
             <a class="ghost-button auth-link" href="{% url back_url back_model %}">Back</a>
         </div>
 
-        {% if messages %}
-            <div class="auth-messages">
-                {% for message in messages %}
-                    <p class="{{ message.tags }}">{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
-
         <form class="form-grid" method="post">
             {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="auth-messages full">
+                    <p class="error">{{ form.non_field_errors|striptags }}</p>
+                </div>
+            {% endif %}
             {% for field in form %}
                 <label>
                     {{ field.label }}

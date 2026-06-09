@@ -8,8 +8,11 @@ py manage.py migrate
 py manage.py seed_demo
 py manage.py collectstatic --noinput
 $env:DJANGO_DEBUG="False"
-$env:DJANGO_SECRET_KEY="replace-this-with-a-long-random-secret"
+$env:DJANGO_SECRET_KEY="replace-this-with-a-long-random-secret-at-least-50-characters"
 $env:DJANGO_ALLOWED_HOSTS="127.0.0.1,localhost"
+$env:DJANGO_CSRF_TRUSTED_ORIGINS="https://your-domain.com"
+$env:DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS="True"
+$env:DJANGO_SECURE_HSTS_PRELOAD="True"
 py manage.py check --deploy
 py manage.py runserver
 ```
@@ -33,4 +36,5 @@ Change this password before real use from Django admin or by creating a new supe
 - Set `DJANGO_CSRF_TRUSTED_ORIGINS` to the deployed HTTPS origins.
 - Run `py manage.py collectstatic --noinput` and serve `staticfiles/` from the web server.
 - Use a production database for multi-user real deployment. SQLite is acceptable only for small local/internal testing.
-- Put HTTPS in front of the app before enabling `DJANGO_SECURE_SSL_REDIRECT=True`.
+- Put HTTPS in front of the app. `DJANGO_SECURE_SSL_REDIRECT` defaults to `True` when `DJANGO_DEBUG=False`.
+- Enable `DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=True` and `DJANGO_SECURE_HSTS_PRELOAD=True` only when every production subdomain is served through HTTPS.

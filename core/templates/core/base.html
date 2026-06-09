@@ -24,7 +24,7 @@
                 </div>
                 <div>
                     <strong>PPSW SACCO</strong>
-                    <span>Admin Safia</span>
+                    <span>Management Suite</span>
                 </div>
             </div>
 
@@ -32,7 +32,7 @@
                 <div class="avatar">PP</div>
                 <div>
                     <span>Welcome,</span>
-                    <strong>SACCO Manager ROGOSE SAFIA</strong>
+                    <strong>{% if request.user.is_authenticated %}{{ request.user.get_full_name|default:request.user.username }}{% else %}Guest User{% endif %}</strong>
                 </div>
             </div>
 
@@ -76,7 +76,7 @@
                         <svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22Zm7-6v-5a7 7 0 0 0-5-6.7V3a2 2 0 0 0-4 0v1.3A7 7 0 0 0 5 11v5l-2 2v1h18v-1l-2-2Z"/></svg>
                     </button>
                     <div class="top-profile">
-                        <div class="avatar small">SM</div>
+                        <div class="avatar small">{% if request.user.is_authenticated %}{{ request.user.username|slice:":2"|upper }}{% else %}GU{% endif %}</div>
                         <span>{% if request.user.is_authenticated %}{{ request.user.username }}{% else %}Guest{% endif %}</span>
                     </div>
                     {% if request.user.is_authenticated %}
@@ -87,6 +87,14 @@
                     <button class="primary-button" type="button" id="new-record">New Record</button>
                 </div>
             </header>
+
+            {% if messages %}
+                <div class="auth-messages app-messages">
+                    {% for message in messages %}
+                        <p class="{{ message.tags }}">{{ message }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
 
             {% block content %}{% endblock %}
         </main>

@@ -104,6 +104,12 @@ PAGE_MODEL_ROUTES = {
     "groups": "groups",
 }
 
+ACTIVE_PAGE_FOR_MODEL = {
+    model_name: page_name
+    for page_name, model_name in PAGE_MODEL_ROUTES.items()
+    if model_name != "records"
+}
+
 
 MODEL_VIEWS = {
     "branches": {"model": Branch, "form": BranchForm, "title": "Branches", "columns": ["branch_code", "branch_name", "phone", "email", "status"], "search": ["branch_code", "branch_name", "phone", "email"]},
@@ -184,7 +190,7 @@ def model_field_value(instance, field_name):
 
 def model_context(config, model_name, **extra):
     context = {
-        "active_page": "",
+        "active_page": ACTIVE_PAGE_FOR_MODEL.get(model_name, ""),
         "model_name": model_name,
         "model_title": config["title"],
         "page_title": config["title"],

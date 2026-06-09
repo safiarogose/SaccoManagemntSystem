@@ -10,6 +10,6 @@
 <form class="form-grid auth-form" method="post">
     {% csrf_token %}
     <button class="primary-button full" type="submit">Logout</button>
-    <a class="ghost-button full auth-link" href="/">Back to Dashboard</a>
+    <a class="ghost-button full auth-link" href="{% url 'dashboard' %}">Back to Dashboard</a>
 </form>
 {% endblock %}
