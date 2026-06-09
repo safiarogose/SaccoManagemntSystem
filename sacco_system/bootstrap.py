@@ -13,7 +13,7 @@ def bootstrap_vercel_database():
 
     call_command("migrate", interactive=False, verbosity=0)
 
-    if env_bool("VERCEL_SEED_DEMO", True):
+    if env_bool("VERCEL_SEED_DEMO", True) or live_database_needs_seed():
         call_command("seed_demo", verbosity=0)
 
     admin_username = os.environ.get("VERCEL_ADMIN_USERNAME", "").strip()
@@ -49,3 +49,9 @@ def bootstrap_vercel_database():
     admin_user.set_password(admin_password)
     admin_user.save()
     admin_user.groups.add(admin_group)
+
+
+def live_database_needs_seed():
+    from core.models import Product
+
+    return not Product.objects.exists()
