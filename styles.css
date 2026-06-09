@@ -2678,6 +2678,42 @@ td {
     margin-top: 18px;
 }
 
+.auth-portal-page {
+    background: #f5f6f8;
+}
+
+.auth-portal-page .auth-shell {
+    display: grid;
+    grid-template-columns: 1fr;
+    place-items: center;
+    min-height: 100vh;
+    padding: 78px 18px 34px;
+}
+
+.auth-portal-page .auth-visual {
+    display: none;
+}
+
+.auth-portal-page .auth-card {
+    width: min(430px, 100%);
+    min-height: 0;
+    margin: 0 auto;
+    border: 1px solid #dbe3ea;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow: 0 18px 48px rgba(42, 63, 84, 0.12);
+}
+
+.auth-portal-page .auth-brand {
+    border-bottom: 1px solid #dbe3ea;
+    background: #ffffff;
+    color: #2a3f54;
+}
+
+.auth-portal-page .auth-brand span {
+    color: #73879c;
+}
+
 @media print {
     .sidebar,
     .top-actions,
