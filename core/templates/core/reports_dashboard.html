@@ -1,4 +1,9 @@
 {% extends "core/base.html" %}
+{% load static %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{% static 'reports-dashboard.css' %}">
+{% endblock %}
 
 {% block content %}
 <section class="view active-view std-dashboard">

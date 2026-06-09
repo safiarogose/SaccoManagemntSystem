@@ -1,0 +1,130 @@
+.std-dashboard {
+    display: grid;
+    gap: 20px;
+    color: #2a3f54;
+}
+
+.std-page-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #dfe6ec;
+}
+
+.std-page-head p {
+    margin: 0 0 4px;
+    color: #73879c;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.std-page-head h2 {
+    margin: 0;
+    color: #2a3f54;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.std-actions,
+.std-metrics {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.std-metrics {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+.std-metric,
+.std-panel {
+    border: 1px solid #e1e8ee;
+    border-radius: 8px;
+    background: #ffffff;
+    box-shadow: 0 14px 32px rgba(42, 63, 84, 0.07);
+}
+
+.std-metric {
+    padding: 18px;
+    border-top: 4px solid #1abb9c;
+}
+
+.std-metric.blue {
+    border-top-color: #3498db;
+}
+
+.std-metric.amber {
+    border-top-color: #f0ad4e;
+}
+
+.std-metric.red {
+    border-top-color: #e74c3c;
+}
+
+.std-metric span,
+.std-metric strong,
+.std-metric small {
+    display: block;
+}
+
+.std-metric span {
+    color: #73879c;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.std-metric strong {
+    margin: 8px 0 5px;
+    color: #2a3f54;
+    font-size: 25px;
+    font-weight: 650;
+}
+
+.std-metric small {
+    color: #73879c;
+}
+
+.std-panel {
+    overflow: hidden;
+}
+
+.std-panel-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 64px;
+    padding: 16px 18px;
+    border-bottom: 1px solid #e1e8ee;
+}
+
+.std-panel-head h3 {
+    margin: 0;
+    color: #2a3f54;
+    font-size: 16px;
+    font-weight: 650;
+}
+
+.std-panel-head p {
+    margin: 4px 0 0;
+    color: #73879c;
+    font-size: 12px;
+}
+
+.std-panel-body {
+    padding: 18px;
+}
+
+@media (max-width: 720px) {
+    .std-page-head,
+    .std-panel-head {
+        align-items: stretch;
+        flex-direction: column;
+    }
+}
