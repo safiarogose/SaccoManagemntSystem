@@ -8,7 +8,7 @@ def env_bool(name, default=False):
 
 
 def bootstrap_vercel_database():
-    if not os.environ.get("VERCEL") or not env_bool("VERCEL_BOOTSTRAP_DB"):
+    if not os.environ.get("VERCEL") or not env_bool("VERCEL_AUTO_MIGRATE", True):
         return
 
     call_command("migrate", interactive=False, verbosity=0)
