@@ -24,6 +24,9 @@ The demo seed creates:
 ```text
 Username: admin
 Password: admin123
+
+Username: safia
+Password: admin123
 ```
 
 Change this password before real use from Django admin or by creating a new superuser.
@@ -39,3 +42,4 @@ Change this password before real use from Django admin or by creating a new supe
 - Put HTTPS in front of the app. `DJANGO_SECURE_SSL_REDIRECT` defaults to `True` when `DJANGO_DEBUG=False`.
 - Enable `DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=True` and `DJANGO_SECURE_HSTS_PRELOAD=True` only when every production subdomain is served through HTTPS.
 - Vercel auto-migration is enabled by default through `VERCEL_AUTO_MIGRATE=True` so fresh `/tmp` SQLite deployments do not crash with missing tables. If a fresh database has no users, the system creates the documented demo admin login `admin / admin123`; set `VERCEL_ADMIN_USERNAME` and `VERCEL_ADMIN_PASSWORD` to override it, then change the password before real use.
+- Set `VERCEL_SEED_DEMO=True` on Vercel if you want the full demo records and the `safia / admin123` demo login online. Without this, Safia may exist only as a local database user or member record, not as a Vercel login.

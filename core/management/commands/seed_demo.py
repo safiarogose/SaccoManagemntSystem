@@ -23,12 +23,14 @@ class Command(BaseCommand):
     help = "Create demo data for the SACCO system."
 
     def handle(self, *args, **options):
-        User.objects.get_or_create(username="admin", defaults={"is_staff": True, "is_superuser": True})
-        admin = User.objects.get(username="admin")
-        admin.is_staff = True
-        admin.is_superuser = True
-        admin.set_password("admin123")
-        admin.save()
+        for username in ("admin", "safia"):
+            User.objects.get_or_create(username=username, defaults={"is_staff": True, "is_superuser": True})
+            user = User.objects.get(username=username)
+            user.is_staff = True
+            user.is_superuser = True
+            user.is_active = True
+            user.set_password("admin123")
+            user.save()
 
         parliament, _ = Branch.objects.get_or_create(
             branch_code="BR-001",
@@ -168,4 +170,4 @@ class Command(BaseCommand):
             defaults={"payment_method": cash, "balance_after": amina_account.current_balance, "narration": "Installment payment", "created_by": staff},
         )
 
-        self.stdout.write(self.style.SUCCESS("Demo data ready. Login with admin / admin123."))
+        self.stdout.write(self.style.SUCCESS("Demo data ready. Login with admin / admin123 or safia / admin123."))

@@ -147,6 +147,9 @@ Demo login:
 ```text
 Username: admin
 Password: admin123
+
+Username: safia
+Password: admin123
 ```
 
 ## Deployment Check
@@ -157,6 +160,7 @@ $env:DJANGO_DEBUG="False"
 $env:DJANGO_SECRET_KEY="replace-with-a-long-random-secret-at-least-50-characters"
 $env:DJANGO_ALLOWED_HOSTS="your-domain.com,www.your-domain.com"
 $env:DJANGO_CSRF_TRUSTED_ORIGINS="https://your-domain.com,https://www.your-domain.com"
+$env:VERCEL_SEED_DEMO="True"
 $env:DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS="True"
 $env:DJANGO_SECURE_HSTS_PRELOAD="True"
 py manage.py check --deploy
