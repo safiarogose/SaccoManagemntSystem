@@ -1,10 +1,155 @@
-{% extends "core/auth_base.html" %}
+<!doctype html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PPSW SACCO</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-{% block auth_content %}
-<form class="form-grid auth-form" method="post">
-    {% csrf_token %}
-    <label class="full">Username<input name="username" autocomplete="username" placeholder="Example: admin" required autofocus></label>
-    <label class="full">Password<input name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required></label>
-    <button class="primary-button full auth-submit" type="submit">Sign In</button>
-</form>
-{% endblock %}
+        body {
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 24px;
+            background: #f5f6f8;
+            color: #2a3f54;
+            font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+        }
+
+        .login-card {
+            width: min(360px, 100%);
+            overflow: hidden;
+            border: 1px solid #dbe3ea;
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0 18px 48px rgba(42, 63, 84, 0.12);
+        }
+
+        .login-brand {
+            display: grid;
+            justify-items: center;
+            gap: 10px;
+            padding: 28px 28px 20px;
+            border-bottom: 1px solid #dbe3ea;
+            text-align: center;
+        }
+
+        .login-mark {
+            display: grid;
+            place-items: center;
+            width: 44px;
+            height: 44px;
+            border: 1px solid #dbe3ea;
+            border-radius: 50%;
+            color: #000d83;
+        }
+
+        .login-mark svg {
+            width: 27px;
+            height: 27px;
+            fill: currentColor;
+        }
+
+        .login-mark path + path {
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+        }
+
+        .login-brand strong {
+            font-size: 20px;
+        }
+
+        .login-form {
+            display: grid;
+            gap: 14px;
+            padding: 24px 28px 28px;
+        }
+
+        .login-form label {
+            display: grid;
+            gap: 6px;
+            color: #44546a;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .login-form input {
+            width: 100%;
+            min-height: 50px;
+            padding: 0 12px;
+            border: 1px solid #dbe3ea;
+            border-radius: 6px;
+            background: #fbfcfd;
+            color: #2a3f54;
+            font: inherit;
+        }
+
+        .login-form input:focus {
+            border-color: #1abb9c;
+            box-shadow: 0 0 0 3px rgba(26, 187, 156, 0.14);
+            outline: 0;
+        }
+
+        .login-submit {
+            min-height: 52px;
+            border: 0;
+            border-radius: 6px;
+            background: #000d83;
+            color: #ffffff;
+            font: inherit;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .login-messages {
+            display: grid;
+            gap: 8px;
+            padding: 18px 28px 0;
+        }
+
+        .login-messages p {
+            margin: 0;
+            padding: 10px 12px;
+            border-radius: 4px;
+            background: #fae9e6;
+            color: #e74c3c;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+    <main class="login-card">
+        <div class="login-brand">
+            <div class="login-mark" aria-hidden="true">
+                <svg viewBox="0 0 24 24" role="img">
+                    <path d="M12 2 20 5v6c0 5.2-3.2 9.8-8 11-4.8-1.2-8-5.8-8-11V5l8-3Z"/>
+                    <path d="M8 12h8M12 8v8"/>
+                </svg>
+            </div>
+            <strong>PPSW SACCO</strong>
+        </div>
+
+        {% if messages %}
+            <div class="login-messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form class="login-form" method="post">
+            {% csrf_token %}
+            <label>Username<input name="username" autocomplete="username" placeholder="Example: admin" required autofocus></label>
+            <label>Password<input name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required></label>
+            <button class="login-submit" type="submit">Sign In</button>
+        </form>
+    </main>
+</body>
+</html>
