@@ -1,21 +1,10 @@
 {% extends "core/auth_base.html" %}
 
 {% block auth_content %}
-<div class="auth-heading">
-    <p class="eyebrow">Secure Staff Portal</p>
-    <h1>Sign in to PPSW SACCO</h1>
-    <p>Use your authorized username and password to continue to the management dashboard.</p>
-</div>
-
 <form class="form-grid auth-form" method="post">
     {% csrf_token %}
     <label class="full">Username<input name="username" autocomplete="username" placeholder="Example: admin" required autofocus></label>
     <label class="full">Password<input name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required></label>
-    <button class="primary-button full auth-submit" type="submit">Sign In To Dashboard</button>
+    <button class="primary-button full auth-submit" type="submit">Sign In</button>
 </form>
-
-<div class="auth-footnote">
-    <span>Authorized access only</span>
-    <p>This portal is for SACCO staff, management, loans officers, tellers, accountants, and auditors.</p>
-</div>
 {% endblock %}
