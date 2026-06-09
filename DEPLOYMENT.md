@@ -38,3 +38,4 @@ Change this password before real use from Django admin or by creating a new supe
 - Use a production database for multi-user real deployment. SQLite is acceptable only for small local/internal testing.
 - Put HTTPS in front of the app. `DJANGO_SECURE_SSL_REDIRECT` defaults to `True` when `DJANGO_DEBUG=False`.
 - Enable `DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS=True` and `DJANGO_SECURE_HSTS_PRELOAD=True` only when every production subdomain is served through HTTPS.
+- Vercel database bootstrapping is disabled by default. Set `VERCEL_BOOTSTRAP_DB=True` only when you intentionally want migrations to run at startup, and set `VERCEL_ADMIN_USERNAME` plus `VERCEL_ADMIN_PASSWORD` if an admin account should be created.

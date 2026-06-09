@@ -3,299 +3,96 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Parliamentary Police SACCO</title>
+    <title>PPSW SACCO System</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        body.system-launcher {
+            display: grid;
+            place-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 24px;
+            background:
+                linear-gradient(135deg, rgba(0, 13, 131, 0.9), rgba(42, 63, 84, 0.78)),
+                url("static/images/sacco-hero.png") center / cover;
+        }
+
+        .launcher-card {
+            width: min(760px, 100%);
+            padding: 34px;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 10px;
+            background: #ffffff;
+            box-shadow: 0 24px 70px rgba(0, 13, 131, 0.28);
+        }
+
+        .launcher-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .launcher-mark {
+            display: grid;
+            place-items: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #000d83;
+            color: #ffffff;
+            font-size: 22px;
+            font-weight: 900;
+        }
+
+        .launcher-brand strong,
+        .launcher-brand span {
+            display: block;
+        }
+
+        .launcher-brand span {
+            margin-top: 3px;
+            color: #73879c;
+            font-size: 13px;
+        }
+
+        .launcher-card h1 {
+            margin: 0;
+            color: #2a3f54;
+            font-size: clamp(30px, 4vw, 44px);
+            line-height: 1.1;
+        }
+
+        .launcher-card p {
+            max-width: 620px;
+            color: #73879c;
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+        .launcher-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 24px;
+        }
+    </style>
 </head>
-<body class="gentelella-theme">
-    <div class="app-shell">
-        <aside class="sidebar">
-            <div class="brand">
-                <div class="brand-mark" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" role="img">
-                        <path d="M12 2 20 5v6c0 5.2-3.2 9.8-8 11-4.8-1.2-8-5.8-8-11V5l8-3Z"/>
-                        <path d="M8 12h8M12 8v8"/>
-                    </svg>
-                </div>
-                <div>
-                    <strong>PPSW SACCO</strong>
-                    <span>Admin Safia</span>
-                </div>
-            </div>
-
-            <div class="profile-card">
-                <div class="avatar">PP</div>
-                <div>
-                    <span>Welcome,</span>
-                    <strong>SACCO Manager ROGOSE SAFIA</strong>
-                </div>
-            </div>
-
-            <nav class="main-nav" aria-label="Main navigation">
-                <p class="menu-section">Main Menu</p>
-                <button class="nav-item active" data-view="dashboard" title="Dashboard">
-                    <svg viewBox="0 0 24 24"><path d="M4 13h7V4H4v9Zm0 7h7v-5H4v5Zm9 0h7v-9h-7v9Zm0-18v7h7V2h-7Z"/></svg>
-                    <span>Dashboard</span>
-                </button>
-                <button class="nav-item" data-view="members" title="Members">
-                    <svg viewBox="0 0 24 24"><path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3ZM8 11c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3Zm0 2c-2.7 0-5 1.3-5 3v2h10v-2c0-1.7-2.3-3-5-3Zm8 0c-.4 0-.8 0-1.2.1 1 .7 1.7 1.7 1.7 2.9v2H22v-2c0-1.7-2.3-3-6-3Z"/></svg>
-                    <span>Members</span>
-                </button>
-                <button class="nav-item" data-view="accounts" title="Accounts">
-                    <svg viewBox="0 0 24 24"><path d="M3 7h18v13H3V7Zm2 2v2h16V9H5Zm0 5v4h7v-4H5Zm10 0v1.5h5V14h-5Z"/></svg>
-                    <span>Accounts</span>
-                </button>
-                <button class="nav-item" data-view="loans" title="Loans">
-                    <svg viewBox="0 0 24 24"><path d="M6 3h12v18H6V3Zm2 2v3h8V5H8Zm0 5v2h8v-2H8Zm0 4v2h5v-2H8Z"/></svg>
-                    <span>Loans</span>
-                </button>
-                <button class="nav-item" data-view="transactions" title="Transactions">
-                    <svg viewBox="0 0 24 24"><path d="M7 7h13v2H7l3 3-1.4 1.4L3.2 8l5.4-5.4L10 4 7 7Zm10 10H4v-2h13l-3-3 1.4-1.4 5.4 5.4-5.4 5.4L14 20l3-3Z"/></svg>
-                    <span>Transactions</span>
-                </button>
-                <p class="menu-section">Administration</p>
-                <button class="nav-item" data-view="reports" title="Reports">
-                    <svg viewBox="0 0 24 24"><path d="M5 3h14v18H5V3Zm3 4v2h8V7H8Zm0 4v2h8v-2H8Zm0 4v2h5v-2H8Z"/></svg>
-                    <span>Reports</span>
-                </button>
-                <button class="nav-item" data-view="settings" title="Settings">
-                    <svg viewBox="0 0 24 24"><path d="M19.4 13.5c.1-.5.1-1 .1-1.5s0-1-.1-1.5l2-1.5-2-3.4-2.4 1a8 8 0 0 0-2.6-1.5L14 2h-4l-.4 3.1A8 8 0 0 0 7 6.6l-2.4-1-2 3.4 2 1.5A9.9 9.9 0 0 0 4.5 12c0 .5 0 1 .1 1.5l-2 1.5 2 3.4 2.4-1a8 8 0 0 0 2.6 1.5L10 22h4l.4-3.1a8 8 0 0 0 2.6-1.5l2.4 1 2-3.4-2-1.5ZM12 15.5A3.5 3.5 0 1 1 12 8a3.5 3.5 0 0 1 0 7.5Z"/></svg>
-                    <span>Settings</span>
-                </button>
-            </nav>
-        </aside>
-
-        <main class="workspace">
-            <header class="topbar">
-                <div class="page-heading">
-                    <p class="eyebrow">Parliamentary Police Saving Welfare SACCO</p>
-                    <h1 id="page-title">Dashboard</h1>
-                </div>
-                <div class="top-actions">
-                    <label class="search">
-                        <svg viewBox="0 0 24 24"><path d="M10 4a6 6 0 1 1 0 12 6 6 0 0 1 0-12Zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm5.3 9.3 4.4 4.4-1.4 1.4-4.4-4.4 1.4-1.4Z"/></svg>
-                        <input id="global-search" type="search" placeholder="Search member, account, loan">
-                    </label>
-                    <button class="icon-button" title="Print current view">
-                        <svg viewBox="0 0 24 24"><path d="M6 9V3h12v6h2a2 2 0 0 1 2 2v7h-4v3H6v-3H2v-7a2 2 0 0 1 2-2h2Zm2-4v4h8V5H8Zm0 12v2h8v-2H8Zm14-5h-2v2h2v-2Z"/></svg>
-                    </button>
-                    <button class="icon-button" title="Notifications">
-                        <svg viewBox="0 0 24 24"><path d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8A2.5 2.5 0 0 0 12 22Zm7-6v-5a7 7 0 0 0-5-6.7V3a2 2 0 0 0-4 0v1.3A7 7 0 0 0 5 11v5l-2 2v1h18v-1l-2-2Z"/></svg>
-                    </button>
-                    <div class="top-profile">
-                        <div class="avatar small">SM</div>
-                        <span>SACCO Manager</span>
-                    </div>
-                    <button class="primary-button" id="new-record">New Record</button>
-                </div>
-            </header>
-
-            <section id="dashboard" class="view active-view">
-                <div class="dashboard-filter">
-                    <div class="filter-group">
-                        <button class="segmented active">Today</button>
-                        <button class="segmented">This Week</button>
-                        <button class="segmented">This Month</button>
-                        <button class="segmented">Quarter</button>
-                    </div>
-                    <div class="filter-group">
-                        <label>Branch<select><option>All Branches</option><option>Parliament Branch</option><option>Central Branch</option></select></label>
-                        <label>Product<select><option>All Products</option><option>Ordinary Savings</option><option>Welfare Fund</option><option>Normal Loan</option></select></label>
-                    </div>
-                </div>
-
-                <div class="metric-grid dashboard-metrics">
-                    <article class="metric visual-metric">
-                        <div class="metric-icon green"><svg viewBox="0 0 24 24"><path d="M16 11c1.7 0 3-1.3 3-3s-1.3-3-3-3-3 1.3-3 3 1.3 3 3 3ZM8 11c1.7 0 3-1.3 3-3S9.7 5 8 5 5 6.3 5 8s1.3 3 3 3Zm0 2c-2.7 0-5 1.3-5 3v2h10v-2c0-1.7-2.3-3-5-3Zm8 0c-.4 0-.8 0-1.2.1 1 .7 1.7 1.7 1.7 2.9v2H22v-2c0-1.7-2.3-3-6-3Z"/></svg></div>
-                        <span>Active Members</span><strong>1,248</strong><small>+36 this quarter</small>
-                    </article>
-                    <article class="metric visual-metric">
-                        <div class="metric-icon blue"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3V7Zm2 2v2h16V9H5Zm0 5v4h7v-4H5Zm10 0v1.5h5V14h-5Z"/></svg></div>
-                        <span>Total Savings</span><strong>UGX 2.84B</strong><small>Ordinary, welfare, shares</small>
-                    </article>
-                    <article class="metric visual-metric">
-                        <div class="metric-icon amber"><svg viewBox="0 0 24 24"><path d="M6 3h12v18H6V3Zm2 2v3h8V5H8Zm0 5v2h8v-2H8Zm0 4v2h5v-2H8Z"/></svg></div>
-                        <span>Loan Portfolio</span><strong>UGX 1.12B</strong><small>386 active loans</small>
-                    </article>
-                    <article class="metric visual-metric warning">
-                        <div class="metric-icon red"><svg viewBox="0 0 24 24"><path d="M12 2 22 20H2L12 2Zm1 14v2h-2v-2h2Zm0-7v5h-2V9h2Z"/></svg></div>
-                        <span>Loan Arrears</span><strong>UGX 74.6M</strong><small>28 accounts flagged</small>
-                    </article>
-                </div>
-
-                <div class="dashboard-grid">
-                    <section class="panel chart-panel wide-chart">
-                        <div class="panel-head">
-                            <div>
-                                <h2>Savings And Repayments Trend</h2>
-                                <p class="panel-subtitle">Monthly collections in UGX millions</p>
-                            </div>
-                            <span class="pill green">Healthy</span>
-                        </div>
-                        <div class="bar-chart" id="collections-chart"></div>
-                    </section>
-
-                    <section class="panel chart-panel">
-                        <div class="panel-head">
-                            <div>
-                                <h2>Portfolio Mix</h2>
-                                <p class="panel-subtitle">Savings, welfare, shares, loans</p>
-                            </div>
-                        </div>
-                        <div class="donut-wrap">
-                            <div class="donut" id="portfolio-donut"><span>UGX<br>3.96B</span></div>
-                            <div class="legend-list" id="portfolio-legend"></div>
-                        </div>
-                    </section>
-
-                    <section class="panel chart-panel">
-                        <div class="panel-head">
-                            <div>
-                                <h2>Loan Arrears Aging</h2>
-                                <p class="panel-subtitle">Outstanding risk by age band</p>
-                            </div>
-                        </div>
-                        <div class="horizontal-bars" id="arrears-bars"></div>
-                    </section>
-
-                    <section class="panel chart-panel">
-                        <div class="panel-head">
-                            <div>
-                                <h2>Branch Performance</h2>
-                                <p class="panel-subtitle">Member growth and collections</p>
-                            </div>
-                        </div>
-                        <div class="branch-score" id="branch-score"></div>
-                    </section>
-
-                    <section class="panel wide">
-                        <div class="panel-head">
-                            <h2>Recent Transactions</h2>
-                            <button class="ghost-button">Export</button>
-                        </div>
-                        <div class="table-wrap">
-                            <table>
-                                <thead><tr><th>Date</th><th>Member</th><th>Type</th><th>Method</th><th>Amount</th><th>Posted By</th></tr></thead>
-                                <tbody id="recent-transactions"></tbody>
-                            </table>
-                        </div>
-                    </section>
-
-                    <section class="panel">
-                        <div class="panel-head">
-                            <h2>Loan Queue</h2>
-                            <span class="pill amber">6 pending</span>
-                        </div>
-                        <div id="loan-queue" class="stack-list"></div>
-                    </section>
-                </div>
-            </section>
-
-            <section id="members" class="view">
-                <div class="split-layout">
-                    <section class="panel">
-                        <div class="panel-head"><h2>Register Member</h2><span class="pill green">Active</span></div>
-                        <form class="form-grid" id="member-form">
-                            <label>Member No<input id="member-no" value="PPSW-1249" required></label>
-                            <label>First Name<input id="member-first-name" placeholder="First name" required></label>
-                            <label>Last Name<input id="member-last-name" placeholder="Last name" required></label>
-                            <label>ID No<input id="member-id-no" placeholder="National ID or force ID" required></label>
-                            <label>Phone<input id="member-phone" placeholder="+256..." required></label>
-                            <label>Branch<select id="member-branch"><option>Parliament Branch</option><option>Central Branch</option></select></label>
-                            <label class="full">Address<input id="member-address" placeholder="Residence or duty station"></label>
-                            <button class="primary-button full" type="submit">Save Member</button>
-                        </form>
-                    </section>
-                    <section class="panel wide">
-                        <div class="panel-head"><h2>Member Register</h2><button class="ghost-button">Filter</button></div>
-                        <div class="table-wrap"><table><thead><tr><th>No</th><th>Name</th><th>ID No</th><th>Phone</th><th>Branch</th><th>Status</th></tr></thead><tbody id="member-rows"></tbody></table></div>
-                    </section>
-                </div>
-            </section>
-
-            <section id="accounts" class="view">
-                <div class="toolbar">
-                    <button class="segmented active">Savings</button>
-                    <button class="segmented">Welfare</button>
-                    <button class="segmented">Share Capital</button>
-                    <button class="segmented">Loan Accounts</button>
-                </div>
-                <section class="panel">
-                    <div class="panel-head"><h2>Account Balances</h2><button class="ghost-button">Statement</button></div>
-                    <div class="table-wrap"><table><thead><tr><th>Account</th><th>Member</th><th>Product</th><th>Opened</th><th>Balance</th><th>Status</th></tr></thead><tbody id="account-rows"></tbody></table></div>
-                </section>
-            </section>
-
-            <section id="loans" class="view">
-                <div class="content-grid">
-                    <section class="panel">
-                        <div class="panel-head"><h2>Loan Application</h2><span class="pill blue">Draft</span></div>
-                        <form class="form-grid" id="loan-form">
-                            <label class="full">Member<select id="loan-member"></select></label>
-                            <label>Loan Type<select id="loan-type"><option>Normal Loan</option><option>Emergency Loan</option><option>School Fees Loan</option></select></label>
-                            <label>Amount<input id="loan-amount" value="5000000" required></label>
-                            <label>Interest Rate<input id="loan-interest" value="12" required></label>
-                            <label>Months<input id="loan-months" value="24" required></label>
-                            <label class="full">Guarantor<select id="loan-guarantor"></select></label>
-                            <button class="primary-button full" type="submit">Submit Application</button>
-                        </form>
-                    </section>
-                    <section class="panel wide">
-                        <div class="panel-head"><h2>Loan Portfolio</h2><button class="ghost-button">Arrears</button></div>
-                        <div class="table-wrap"><table><thead><tr><th>Loan No</th><th>Member</th><th>Type</th><th>Amount</th><th>Outstanding</th><th>Status</th></tr></thead><tbody id="loan-rows"></tbody></table></div>
-                    </section>
-                </div>
-            </section>
-
-            <section id="transactions" class="view">
-                <div class="split-layout">
-                    <section class="panel">
-                        <div class="panel-head"><h2>Post Transaction</h2><span class="pill green">Balanced</span></div>
-                        <form class="form-grid" id="transaction-form">
-                            <label class="full">Account<select id="transaction-account"></select></label>
-                            <label>Type<select id="transaction-type"><option>Deposit</option><option>Withdrawal</option><option>Loan Repayment</option><option>Charge</option></select></label>
-                            <label>Method<select id="transaction-method"><option>Cash</option><option>Bank Transfer</option><option>Mobile Money</option><option>Payroll Deduction</option></select></label>
-                            <label class="full">Amount<input id="transaction-amount" value="250000" required></label>
-                            <label class="full">Narration<input id="transaction-narration" placeholder="Transaction note"></label>
-                            <button class="primary-button full" type="submit">Post Transaction</button>
-                        </form>
-                    </section>
-                    <section class="panel wide">
-                        <div class="panel-head"><h2>Transaction Ledger</h2><button class="ghost-button">Reconcile</button></div>
-                        <div class="table-wrap"><table><thead><tr><th>Date</th><th>Account</th><th>Type</th><th>Method</th><th>Amount</th><th>Balance After</th></tr></thead><tbody id="ledger-rows"></tbody></table></div>
-                    </section>
-                </div>
-            </section>
-
-            <section id="reports" class="view">
-                <div class="report-grid" id="report-cards"></div>
-            </section>
-
-            <section id="settings" class="view">
-                <div class="content-grid">
-                    <section class="panel">
-                        <div class="panel-head"><h2>Products</h2><button class="ghost-button">Add</button></div>
-                        <div class="stack-list" id="product-list"></div>
-                    </section>
-                    <section class="panel">
-                        <div class="panel-head"><h2>Roles</h2><button class="ghost-button">Edit</button></div>
-                        <div class="stack-list" id="role-list"></div>
-                    </section>
-                </div>
-            </section>
-        </main>
-    </div>
-    <div id="toast" class="toast" role="status" aria-live="polite"></div>
-    <div id="modal" class="modal" aria-hidden="true">
-        <div class="modal-card">
-            <div class="panel-head">
-                <h2 id="modal-title">Details</h2>
-                <button class="icon-button" id="modal-close" title="Close">
-                    <svg viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4 6.4 5Z"/></svg>
-                </button>
-            </div>
-            <div id="modal-body" class="modal-body"></div>
+<body class="system-launcher">
+    <main class="launcher-card">
+        <div class="launcher-brand">
+            <span class="launcher-mark">P</span>
+            <span>
+                <strong>PPSW SACCO</strong>
+                <span>Parliamentary Police Saving Welfare SACCO</span>
+            </span>
         </div>
-    </div>
-    <script src="app.js"></script>
+        <h1>Run the Django SACCO management system.</h1>
+        <p>This package is delivered as a Django application. Start the server, then open the public SACCO home or the protected staff dashboard.</p>
+        <div class="launcher-actions">
+            <a class="primary-button auth-link" href="http://127.0.0.1:8000/">Open SACCO Home</a>
+            <a class="ghost-button auth-link" href="http://127.0.0.1:8000/login/">Open Staff Login</a>
+        </div>
+    </main>
 </body>
 </html>

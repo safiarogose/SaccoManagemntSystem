@@ -1,6 +1,6 @@
 # Parliamentary Police Saving Welfare SACCO System
 
-This project contains a starter system design for a SACCO serving Parliamentary Police members. It is based on the supplied ERD and covers member registration, accounts, savings products, loans, guarantors, repayments, transactions, staff, roles, and branches.
+This project contains a Django-based SACCO management system for Parliamentary Police members. It covers member registration, accounts, savings products, loans, guarantors, repayments, transactions, staff, roles, branches, reporting, and audit activity.
 
 ## Core Modules
 
@@ -116,14 +116,14 @@ This project contains a starter system design for a SACCO serving Parliamentary 
 
 ## Files
 
-- `index.html` opens a clickable SACCO prototype in the browser.
-- `styles.css` contains the prototype layout and visual design.
-- `app.js` contains sample data and simple screen navigation.
+- `index.html` is a local launcher that points users to the Django application.
+- `styles.css` mirrors the served static stylesheet for local packaging and review.
+- `app.js` mirrors the served static JavaScript for local packaging and review.
 - `manage.py` runs the Django development server.
 - `sacco_system/` contains Django project settings and URL configuration.
-- `core/` contains the Django app that serves the prototype.
+- `core/` contains the Django app, models, views, templates, forms, services, and management commands.
 - `schema.sql` contains a relational database schema based on the ERD.
-- `procedures.sql` contains starter SQL Server procedures for posting account transactions, approving loans, and recording repayments.
+- `procedures.sql` contains SQL Server procedure references for posting account transactions, approving loans, and recording repayments.
 - `SYSTEM_DESIGN.md` contains the functional design, screen design, permissions, business rules, and recommended technology stack.
 - `REPORTS.md` contains report definitions, columns, and filters.
 
@@ -154,9 +154,11 @@ Password: admin123
 ```powershell
 py manage.py collectstatic --noinput
 $env:DJANGO_DEBUG="False"
-$env:DJANGO_SECRET_KEY="replace-with-a-long-random-secret"
+$env:DJANGO_SECRET_KEY="replace-with-a-long-random-secret-at-least-50-characters"
 $env:DJANGO_ALLOWED_HOSTS="your-domain.com,www.your-domain.com"
 $env:DJANGO_CSRF_TRUSTED_ORIGINS="https://your-domain.com,https://www.your-domain.com"
+$env:DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS="True"
+$env:DJANGO_SECURE_HSTS_PRELOAD="True"
 py manage.py check --deploy
 ```
 
