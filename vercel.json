@@ -2,14 +2,14 @@
   "buildCommand": "python manage.py collectstatic --noinput",
   "builds": [
     {
-      "src": "sacco_system/wsgi.py",
+      "src": "api/index.py",
       "use": "@vercel/python"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "sacco_system/wsgi.py"
+      "dest": "api/index.py"
     }
   ]
 }
