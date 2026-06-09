@@ -1,68 +1,67 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<section class="view active-view gentelella-dashboard">
-    <div class="dashboard-title-row">
+<section class="view active-view std-dashboard">
+    <div class="std-page-head">
         <div>
-            <p class="dashboard-kicker">Operations Centre</p>
+            <p>Operations Centre</p>
             <h2>SACCO Dashboard</h2>
-            <span class="system-state"><i></i> Member services active</span>
         </div>
-        <div class="dashboard-actions">
+        <div class="std-actions">
             <a class="primary-button auth-link" href="{% url 'model-create' 'members' %}">New Member</a>
             <a class="ghost-button auth-link" href="{% url 'post-transaction' %}">Post Transaction</a>
             <a class="ghost-button auth-link" href="{% url 'reports' %}">Reports</a>
         </div>
     </div>
 
-    <div class="g-tile-grid">
-        <article class="g-tile green">
+    <div class="std-metrics">
+        <article class="std-metric green">
             <span>Members</span>
             <strong>{{ active_members }}</strong>
             <small>{{ total_members }} registered</small>
         </article>
-        <article class="g-tile blue">
+        <article class="std-metric blue">
             <span>Account Balances</span>
             <strong>UGX {{ total_savings|floatformat:0 }}</strong>
             <small>{{ account_count }} accounts</small>
         </article>
-        <article class="g-tile amber">
+        <article class="std-metric amber">
             <span>Loan Book</span>
             <strong>UGX {{ loan_portfolio|floatformat:0 }}</strong>
             <small>{{ active_loan_count }} active loans</small>
         </article>
-        <article class="g-tile red">
+        <article class="std-metric red">
             <span>Arrears</span>
             <strong>UGX {{ arrears|floatformat:0 }}</strong>
             <small>{{ arrears_count }} defaulted loans</small>
         </article>
     </div>
 
-    <div class="g-dashboard-grid">
-        <section class="x-panel">
-            <div class="x-title">
+    <div class="std-grid">
+        <section class="std-panel">
+            <div class="std-panel-head">
                 <div>
                     <h3>Loan Status</h3>
                     <p>Current portfolio split</p>
                 </div>
                 <a class="ghost-button auth-link" href="{% url 'model-list' 'loans' %}">Loans</a>
             </div>
-            <div class="x-content chart-split">
-                <div class="donut-chart" style="background: {{ loan_status_gradient }};" aria-label="Loan status donut chart">
+            <div class="std-panel-body std-chart-split">
+                <div class="donut-chart" style="background: {{ loan_status_gradient }};">
                     <div class="donut-center">
                         <strong>{{ active_loan_count }}</strong>
                         <span>active loans</span>
                     </div>
                 </div>
-                <div class="chart-key clean-key">
+                <div class="std-list">
                     {% for row in loan_status_rows %}
-                        <div class="chart-key-row">
+                        <div class="std-list-row">
                             <span class="legend-dot {{ row.color }}"></span>
                             <strong>{{ row.status }}</strong>
                             <em>{{ row.total }} loans</em>
                         </div>
                     {% empty %}
-                        <div class="empty-state">
+                        <div class="std-empty">
                             <strong>No loans</strong>
                             <span>Loan applications will appear here.</span>
                         </div>
@@ -71,15 +70,15 @@
             </div>
         </section>
 
-        <section class="x-panel wide">
-            <div class="x-title">
+        <section class="std-panel span-2">
+            <div class="std-panel-head">
                 <div>
                     <h3>Savings Trend</h3>
                     <p>Transaction movement by month</p>
                 </div>
                 <span class="pill green">{{ monthly_transaction_rows|length }} months</span>
             </div>
-            <div class="x-content">
+            <div class="std-panel-body">
                 <div class="line-graph reference-line">
                     {% if monthly_line %}
                         <svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" aria-label="Transaction trend line graph">
@@ -95,7 +94,7 @@
                             {% endfor %}
                         </div>
                     {% else %}
-                        <div class="empty-state">
+                        <div class="std-empty">
                             <strong>No transactions</strong>
                             <span>Posted transactions will build this trend graph.</span>
                         </div>
@@ -104,30 +103,30 @@
             </div>
         </section>
 
-        <section class="x-panel">
-            <div class="x-title">
+        <section class="std-panel">
+            <div class="std-panel-head">
                 <div>
                     <h3>Product Mix</h3>
                     <p>Savings by product</p>
                 </div>
                 <a class="ghost-button auth-link" href="{% url 'model-list' 'products' %}">Products</a>
             </div>
-            <div class="x-content chart-split compact">
-                <div class="donut-chart" style="background: {{ product_balance_gradient }};" aria-label="Product balance donut chart">
+            <div class="std-panel-body std-chart-split compact">
+                <div class="donut-chart" style="background: {{ product_balance_gradient }};">
                     <div class="donut-center">
                         <strong>{{ product_pie_rows|length }}</strong>
                         <span>products</span>
                     </div>
                 </div>
-                <div class="chart-key clean-key">
+                <div class="std-list">
                     {% for row in product_pie_rows %}
-                        <div class="chart-key-row">
+                        <div class="std-list-row">
                             <span class="legend-dot {{ row.color }}"></span>
                             <strong>{{ row.name }}</strong>
                             <em>{{ row.percent }}%</em>
                         </div>
                     {% empty %}
-                        <div class="empty-state">
+                        <div class="std-empty">
                             <strong>No product balances</strong>
                             <span>Create accounts to see product performance.</span>
                         </div>
@@ -136,15 +135,15 @@
             </div>
         </section>
 
-        <section class="x-panel wide">
-            <div class="x-title">
+        <section class="std-panel span-2">
+            <div class="std-panel-head">
                 <div>
                     <h3>Transaction Volume</h3>
                     <p>Monthly value posted through member accounts</p>
                 </div>
                 <span class="pill blue">UGX {{ transaction_total|floatformat:0 }}</span>
             </div>
-            <div class="x-content">
+            <div class="std-panel-body">
                 <div class="standard-bar-chart">
                     {% for row in monthly_transaction_rows %}
                         <div class="standard-bar-column">
@@ -155,7 +154,7 @@
                             <small>UGX {{ row.total|floatformat:0 }}</small>
                         </div>
                     {% empty %}
-                        <div class="empty-state">
+                        <div class="std-empty">
                             <strong>No transactions</strong>
                             <span>Posted transactions will build this graph.</span>
                         </div>
@@ -163,93 +162,64 @@
                 </div>
             </div>
         </section>
+    </div>
 
-        <section class="x-panel wide">
-            <div class="x-title">
+    <div class="std-work">
+        <section class="std-panel">
+            <div class="std-panel-head">
                 <div>
                     <h3>Branch Performance</h3>
                     <p>Members, savings, and loans by branch</p>
                 </div>
                 <a class="ghost-button auth-link" href="{% url 'model-list' 'branches' %}">Branches</a>
             </div>
-            <div class="x-content">
-                <div class="branch-graph clean-branch">
-                    {% for branch in branch_rows %}
-                        <div class="branch-graph-row">
-                            <div class="branch-graph-name">
-                                <strong>{{ branch.name }}</strong>
-                                <span>{{ branch.members }} members</span>
+            <div class="std-panel-body branch-graph">
+                {% for branch in branch_rows %}
+                    <div class="branch-graph-row">
+                        <div class="branch-graph-name">
+                            <strong>{{ branch.name }}</strong>
+                            <span>{{ branch.members }} members</span>
+                        </div>
+                        <div class="branch-graph-bars">
+                            <div class="branch-bar-row">
+                                <span>Members</span>
+                                <div class="branch-bar-track"><span class="branch-graph-bar green" style="width: {{ branch.member_percent }}%"></span></div>
                             </div>
-                            <div class="branch-graph-bars" aria-label="{{ branch.name }} branch performance">
-                                <div class="branch-bar-row">
-                                    <span>Members</span>
-                                    <div class="branch-bar-track"><span class="branch-graph-bar green" style="width: {{ branch.member_percent }}%"></span></div>
-                                </div>
-                                <div class="branch-bar-row">
-                                    <span>Savings</span>
-                                    <div class="branch-bar-track"><span class="branch-graph-bar blue" style="width: {{ branch.savings_percent }}%"></span></div>
-                                </div>
-                                <div class="branch-bar-row">
-                                    <span>Loans</span>
-                                    <div class="branch-bar-track"><span class="branch-graph-bar amber" style="width: {{ branch.loans_percent }}%"></span></div>
-                                </div>
+                            <div class="branch-bar-row">
+                                <span>Savings</span>
+                                <div class="branch-bar-track"><span class="branch-graph-bar blue" style="width: {{ branch.savings_percent }}%"></span></div>
+                            </div>
+                            <div class="branch-bar-row">
+                                <span>Loans</span>
+                                <div class="branch-bar-track"><span class="branch-graph-bar amber" style="width: {{ branch.loans_percent }}%"></span></div>
                             </div>
                         </div>
-                    {% empty %}
-                        <div class="empty-state">
-                            <strong>No branches</strong>
-                            <span>Add branches to build the branch graph.</span>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <div class="g-work-grid">
-        <section class="x-panel">
-            <div class="x-title">
-                <div>
-                    <h3>Product Balances</h3>
-                    <p>Account totals grouped by SACCO product</p>
-                </div>
-                <a class="ghost-button auth-link" href="{% url 'model-list' 'products' %}">Products</a>
-            </div>
-            <div class="x-content balance-bars">
-                {% for product in product_rows %}
-                    <div class="balance-row">
-                        <div class="risk-meta">
-                            <span>{{ product.product__product_name|default:"Unassigned Product" }}</span>
-                            <strong>UGX {{ product.total|floatformat:0 }}</strong>
-                        </div>
-                        <div class="risk-track"><div class="risk-fill" style="width: {{ product.percent }}%"></div></div>
-                        <small>{{ product.accounts }} accounts</small>
                     </div>
                 {% empty %}
-                    <div class="empty-state">
-                        <strong>No product balances</strong>
-                        <span>Create accounts to see product performance.</span>
+                    <div class="std-empty">
+                        <strong>No branches</strong>
+                        <span>Add branches to build the branch graph.</span>
                     </div>
                 {% endfor %}
             </div>
         </section>
 
-        <section class="x-panel">
-            <div class="x-title">
+        <section class="std-panel">
+            <div class="std-panel-head">
                 <div>
                     <h3>Loan Queue</h3>
                     <p>Applications and risk items needing review</p>
                 </div>
                 <span class="pill amber">{{ loan_queue|length }} open</span>
             </div>
-            <div class="x-content stack-list">
+            <div class="std-panel-body std-stack">
                 {% for loan in loan_queue %}
                     <div class="list-item">
                         <strong>{{ loan.loan_no }} - {{ loan.member.member_no }}</strong>
                         <span>{{ loan.loan_type }} | UGX {{ loan.loan_amount|floatformat:0 }} | {{ loan.status }}</span>
                     </div>
                 {% empty %}
-                    <div class="empty-state">
+                    <div class="std-empty">
                         <strong>No loans awaiting action</strong>
                         <span>New applications will appear here.</span>
                     </div>
@@ -258,17 +228,19 @@
         </section>
     </div>
 
-    <section class="x-panel">
-        <div class="x-title">
+    <section class="std-panel">
+        <div class="std-panel-head">
             <div>
                 <h3>Recent Transactions</h3>
                 <p>Latest posted account activity, total UGX {{ transaction_total|floatformat:0 }}</p>
             </div>
             <a class="ghost-button auth-link" href="{% url 'model-list' 'account-transactions' %}">Ledger</a>
         </div>
-        <div class="x-content table-wrap">
+        <div class="std-panel-body table-wrap">
             <table>
-                <thead><tr><th>Date</th><th>Member</th><th>Account</th><th>Type</th><th>Method</th><th>Amount</th><th>Posted By</th></tr></thead>
+                <thead>
+                    <tr><th>Date</th><th>Member</th><th>Account</th><th>Type</th><th>Method</th><th>Amount</th><th>Posted By</th></tr>
+                </thead>
                 <tbody>
                     {% for item in recent_transactions %}
                         <tr>
