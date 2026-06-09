@@ -1,27 +1,49 @@
 {% extends "core/base.html" %}
 
 {% block content %}
-<section class="view active-view">
-    <div class="dashboard-filter">
-        <div class="filter-group">
-            <a class="segmented active auth-link" href="{% url 'reports' %}">Summary</a>
-            <a class="segmented auth-link" href="{% url 'model-list' 'members' %}">Members</a>
-            <a class="segmented auth-link" href="{% url 'model-list' 'accounts' %}">Accounts</a>
-            <a class="segmented auth-link" href="{% url 'model-list' 'loans' %}">Loans</a>
+<section class="view active-view std-dashboard">
+    <div class="std-page-head">
+        <div>
+            <p>Reporting Centre</p>
+            <h2>Reports Dashboard</h2>
         </div>
-        <div class="filter-group">
+        <div class="std-actions">
+            <a class="segmented active auth-link" href="{% url 'reports' %}">Summary</a>
+            <a class="ghost-button auth-link" href="{% url 'model-list' 'members' %}">Members</a>
+            <a class="ghost-button auth-link" href="{% url 'model-list' 'accounts' %}">Accounts</a>
+            <a class="ghost-button auth-link" href="{% url 'model-list' 'loans' %}">Loans</a>
             <button class="ghost-button" type="button" onclick="window.print()">Print</button>
         </div>
     </div>
 
-    <div class="report-grid">
+    <div class="std-metrics">
         {% for report in report_cards %}
-            <article class="report-card">
-                <strong>{{ report.title }}</strong>
-                <span>{{ report.count }} records{% if report.total != "" %} | UGX {{ report.total|floatformat:0 }}{% endif %}</span>
-                <a class="ghost-button auth-link" href="{% url 'model-list' report.url %}">Open</a>
+            <article class="std-metric {% cycle 'green' 'blue' 'amber' 'red' %}">
+                <span>{{ report.title }}</span>
+                <strong>{{ report.count }}</strong>
+                <small>{% if report.total != "" %}UGX {{ report.total|floatformat:0 }}{% else %}records{% endif %}</small>
             </article>
         {% endfor %}
     </div>
+
+    <section class="std-panel">
+        <div class="std-panel-head">
+            <div>
+                <h3>Available Reports</h3>
+                <p>Open detailed registers, balances, loan portfolio, arrears, and teller collection reports.</p>
+            </div>
+        </div>
+        <div class="std-panel-body">
+            <div class="report-grid">
+                {% for report in report_cards %}
+                    <article class="report-card">
+                        <strong>{{ report.title }}</strong>
+                        <span>{{ report.count }} records{% if report.total != "" %} | UGX {{ report.total|floatformat:0 }}{% endif %}</span>
+                        <a class="ghost-button auth-link" href="{% url 'model-list' report.url %}">Open</a>
+                    </article>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
 </section>
 {% endblock %}
