@@ -300,6 +300,10 @@ def home(request):
 
 @login_required(login_url="login")
 def dashboard(request):
+    from sacco_system.bootstrap import ensure_demo_data
+
+    ensure_demo_data()
+
     active_members = Member.objects.filter(status="Active").count()
     total_members = Member.objects.count()
     total_savings = Account.objects.aggregate(total=Sum("current_balance"))["total"] or 0

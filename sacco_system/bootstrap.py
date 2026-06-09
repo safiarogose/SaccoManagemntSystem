@@ -14,7 +14,7 @@ def bootstrap_vercel_database():
     call_command("migrate", interactive=False, verbosity=0)
 
     if env_bool("VERCEL_SEED_DEMO", False) or live_database_needs_seed():
-        call_command("seed_demo", verbosity=0)
+        seed_demo_data()
 
     admin_username = os.environ.get("VERCEL_ADMIN_USERNAME", "").strip()
     admin_password = os.environ.get("VERCEL_ADMIN_PASSWORD", "")
@@ -58,3 +58,12 @@ def live_database_needs_seed():
         model.objects.exists()
         for model in (Branch, Staff, Product, Member, Account, Loan)
     )
+
+
+def seed_demo_data():
+    call_command("seed_demo", verbosity=0)
+
+
+def ensure_demo_data():
+    if live_database_needs_seed():
+        seed_demo_data()
