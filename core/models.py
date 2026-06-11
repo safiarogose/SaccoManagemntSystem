@@ -54,14 +54,17 @@ class Staff(TimestampedModel):
 
     def __str__(self):
         return f"{self.staff_no} - {self.first_name} {self.last_name}"
-
+GENDER_CHOICES =[
+    ('Male','Male'),
+    ('Female','Female')
+]
 
 class Member(TimestampedModel):
-    member_no = models.CharField(max_length=30, unique=True)
+    member_no = models.CharField(max_length=255, unique=True, blank=True)
     first_name = models.CharField(max_length=80)
     middle_name = models.CharField(max_length=80, blank=True)
     last_name = models.CharField(max_length=80)
-    gender = models.CharField(max_length=1, blank=True)
+    gender = models.CharField(max_length=6, blank=True, choices=GENDER_CHOICES)
     date_of_birth = models.DateField(null=True, blank=True)
     id_no = models.CharField(max_length=50, unique=True)
     phone = models.CharField(max_length=30, blank=True)
@@ -75,10 +78,22 @@ class Member(TimestampedModel):
         ordering = ["member_no"]
         indexes = [models.Index(fields=["branch"])]
 
+    def save(self, *args, **kwargs):
+        if not self.member_no:
+            last_member = Member.objects.exclude(member_no="").order_by("id").last()
+
+            if last_member and last_member.member_no:
+                last_number = int(last_member.member_no.replace("M", ""))
+                new_number = last_number + 1
+            else:
+                new_number = 1
+
+            self.member_no = f"M{new_number:03d}"
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.member_no} - {self.first_name} {self.last_name}"
-
-
 class AccountType(models.Model):
     type_name = models.CharField(max_length=80, unique=True)
     description = models.CharField(max_length=255, blank=True)

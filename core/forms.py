@@ -51,13 +51,10 @@ class StaffForm(DateInputMixin, forms.ModelForm):
         fields = ["staff_no", "first_name", "last_name", "gender", "phone", "email", "role", "branch", "date_hired", "status"]
 
 
-class MemberForm(DateInputMixin, forms.ModelForm):
-    date_fields = ("date_of_birth",)
-
+class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
         fields = [
-            "member_no",
             "first_name",
             "middle_name",
             "last_name",
@@ -70,7 +67,6 @@ class MemberForm(DateInputMixin, forms.ModelForm):
             "status",
             "branch",
         ]
-
 
 class AccountTypeForm(forms.ModelForm):
     class Meta:
