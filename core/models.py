@@ -58,6 +58,12 @@ GENDER_CHOICES =[
     ('Male','Male'),
     ('Female','Female')
 ]
+STATUS_CHOICES = [
+    ('Active', 'Active'),
+    ('Inactive', 'Inactive'),
+    ('Suspended', 'Suspended'),
+    ('Closed', 'Closed'),
+]
 
 class Member(TimestampedModel):
     member_no = models.CharField(max_length=30, unique=True, blank=True)
