@@ -3,138 +3,133 @@
 {% block content %}
 <section class="view active-view">
     <div class="split-layout">
+
         <section class="panel">
-            <div class="panel-head"><h2 id="member-form-title">Register Member</h2><span class="pill green">CRUD</span></div>
-            <form class="form-grid" id="member-form">
-                <input type="hidden" id="member-index">
-                <label>Member No<input id="member-no" value="PPSW-1249" required></label>
-                <label>First Name<input id="member-first-name" placeholder="First name" required></label>
-                <label>Last Name<input id="member-last-name" placeholder="Last name" required></label>
-                <label>ID No<input id="member-id-no" placeholder="National ID or force ID" required></label>
-                <label>Phone<input id="member-phone" placeholder="+256..." required></label>
-                <label>Branch<select id="member-branch"><option>Parliament Branch</option><option>Central Branch</option></select></label>
-                <label>Status<select id="member-status"><option>Active</option><option>Suspended</option><option>Exited</option></select></label>
-                <label class="full">Address<input id="member-address" placeholder="Residence or duty station"></label>
+            <div class="panel-head">
+                <h2 id="member-form-title">Register Member</h2>
+                <span class="pill green">CRUD</span>
+            </div>
+
+            <form class="form-grid" method="post">
+                {% csrf_token %}
+
+                <label>
+                    First Name
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                </label>
+
+                <label>
+                    Middle Name
+                    {{ form.middle_name }}
+                    {{ form.middle_name.errors }}
+                </label>
+
+                <label>
+                    Last Name
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
+                </label>
+
+                <label>
+                    Gender
+                    {{ form.gender }}
+                    {{ form.gender.errors }}
+                </label>
+
+                <label>
+                    Date of Birth
+                    {{ form.date_of_birth }}
+                    {{ form.date_of_birth.errors }}
+                </label>
+
+                <label>
+                    ID No
+                    {{ form.id_no }}
+                    {{ form.id_no.errors }}
+                </label>
+
+                <label>
+                    Phone
+                    {{ form.phone }}
+                    {{ form.phone.errors }}
+                </label>
+
+                <label>
+                    Email
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </label>
+
+                <label>
+                    Branch
+                    {{ form.branch }}
+                    {{ form.branch.errors }}
+                </label>
+
+                <label>
+                    Status
+                    {{ form.status }}
+                    {{ form.status.errors }}
+                </label>
+
+                <label class="full">
+                    Address
+                    {{ form.address }}
+                    {{ form.address.errors }}
+                </label>
+
                 <button class="primary-button full" type="submit">Save Member</button>
-                <button class="ghost-button full" type="button" id="member-reset">Clear Form</button>
+                <a class="ghost-button full" href="{% url 'member-list' %}">Clear Form</a>
             </form>
         </section>
+
         <section class="panel wide">
-            <div class="panel-head"><h2>Member Register</h2><button class="ghost-button">Filter</button></div>
-            <div class="table-wrap"><table><thead><tr><th>No</th><th>Name</th><th>ID No</th><th>Phone</th><th>Branch</th><th>Status</th><th>Actions</th></tr></thead><tbody id="member-rows"></tbody></table></div>
+            <div class="panel-head">
+                <h2>Member Register</h2>
+                <button class="ghost-button">Filter</button>
+            </div>
+
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Name</th>
+                            <th>ID No</th>
+                            <th>Phone</th>
+                            <th>Branch</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for member in members %}
+                        <tr>
+                            <td>{{ member.member_no }}</td>
+                            <td>{{ member.first_name }} {{ member.last_name }}</td>
+                            <td>{{ member.id_no }}</td>
+                            <td>{{ member.phone }}</td>
+                            <td>{{ member.branch }}</td>
+                            <td>
+                                <span class="pill green">{{ member.status }}</span>
+                            </td>
+                            <td>
+                                <a class="mini-button" href="{% url 'member-update' member.pk %}">Edit</a>
+                                <a class="mini-button danger" href="{% url 'member-delete' member.pk %}">Delete</a>
+                            </td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="7">No members registered yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </section>
+
     </div>
 </section>
-{% endblock %}
-
-{% block scripts %}
-<script>
-    const memberDefaults = [
-        { no: "PPSW-1183", first: "ROGOSE", last: "SAFIA", idNo: "CM920114", phone: "+256 700 000000", branch: "Parliament Branch", status: "Active", address: "Parliament duty station" },
-        { no: "PPSW-1184", first: "AMINA", last: "KATO", idNo: "CM87012459", phone: "+256 772 118 400", branch: "Parliament Branch", status: "Active", address: "Parliament duty station" }
-    ];
-    let members = JSON.parse(localStorage.getItem("ppsw-members") || "null") || memberDefaults;
-    const memberRows = document.getElementById("member-rows");
-    const memberForm = document.getElementById("member-form");
-    const memberFields = {
-        index: document.getElementById("member-index"),
-        no: document.getElementById("member-no"),
-        first: document.getElementById("member-first-name"),
-        last: document.getElementById("member-last-name"),
-        idNo: document.getElementById("member-id-no"),
-        phone: document.getElementById("member-phone"),
-        branch: document.getElementById("member-branch"),
-        status: document.getElementById("member-status"),
-        address: document.getElementById("member-address")
-    };
-
-    function saveMembers() {
-        localStorage.setItem("ppsw-members", JSON.stringify(members));
-    }
-
-    function memberPill(status) {
-        const tone = status === "Active" ? "green" : status === "Suspended" ? "amber" : "red";
-        return `<span class="pill ${tone}">${status}</span>`;
-    }
-
-    function nextMemberNo() {
-        return `PPSW-${String(1249 + members.length).padStart(4, "0")}`;
-    }
-
-    function resetMemberForm() {
-        memberForm.reset();
-        memberFields.index.value = "";
-        memberFields.no.value = nextMemberNo();
-        document.getElementById("member-form-title").textContent = "Register Member";
-    }
-
-    function renderMembers() {
-        memberRows.innerHTML = members.map((member, index) => `
-            <tr>
-                <td>${member.no}</td>
-                <td>${member.first} ${member.last}</td>
-                <td>${member.idNo}</td>
-                <td>${member.phone}</td>
-                <td>${member.branch}</td>
-                <td>${memberPill(member.status)}</td>
-                <td><button class="mini-button" data-edit="${index}">Edit</button><button class="mini-button danger" data-delete="${index}">Delete</button></td>
-            </tr>
-        `).join("");
-    }
-
-    memberForm.addEventListener("submit", event => {
-        event.preventDefault();
-        const member = {
-            no: memberFields.no.value.trim(),
-            first: memberFields.first.value.trim(),
-            last: memberFields.last.value.trim(),
-            idNo: memberFields.idNo.value.trim(),
-            phone: memberFields.phone.value.trim(),
-            branch: memberFields.branch.value,
-            status: memberFields.status.value,
-            address: memberFields.address.value.trim()
-        };
-        const editing = memberFields.index.value !== "";
-        const duplicate = members.some((item, index) => (item.no === member.no || item.idNo === member.idNo) && String(index) !== memberFields.index.value);
-        if (duplicate) {
-            alert("Member number or ID number already exists.");
-            return;
-        }
-        if (editing) members[Number(memberFields.index.value)] = member;
-        else members.unshift(member);
-        saveMembers();
-        renderMembers();
-        resetMemberForm();
-    });
-
-    memberRows.addEventListener("click", event => {
-        const edit = event.target.closest("[data-edit]");
-        const remove = event.target.closest("[data-delete]");
-        if (edit) {
-            const member = members[Number(edit.dataset.edit)];
-            memberFields.index.value = edit.dataset.edit;
-            memberFields.no.value = member.no;
-            memberFields.first.value = member.first;
-            memberFields.last.value = member.last;
-            memberFields.idNo.value = member.idNo;
-            memberFields.phone.value = member.phone;
-            memberFields.branch.value = member.branch;
-            memberFields.status.value = member.status;
-            memberFields.address.value = member.address;
-            document.getElementById("member-form-title").textContent = "Edit Member";
-        }
-        if (remove) {
-            const index = Number(remove.dataset.delete);
-            if (!confirm(`Delete member ${members[index].no}?`)) return;
-            members.splice(index, 1);
-            saveMembers();
-            renderMembers();
-            resetMemberForm();
-        }
-    });
-
-    document.getElementById("member-reset").addEventListener("click", resetMemberForm);
-    resetMemberForm();
-    renderMembers();
-</script>
 {% endblock %}
