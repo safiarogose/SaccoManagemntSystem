@@ -5,6 +5,7 @@ from django.contrib.auth.models import Group, User
 from django.core.exceptions import PermissionDenied
 from django.core.exceptions import FieldDoesNotExist
 from django.db import DatabaseError
+from django.views.decorators.cache import never_cache
 from django.core.paginator import Paginator
 from django.db.models import ProtectedError
 from django.db.models import Count, Q, Sum
@@ -445,7 +446,7 @@ def dashboard(request):
         },
     )
 
-
+@never_cache
 def login_page(request):
     if request.user.is_authenticated:
         return redirect("dashboard")
@@ -453,6 +454,7 @@ def login_page(request):
     if request.method == "POST":
         username = request.POST.get("username", "").strip()
         password = request.POST.get("password", "")
+
         ensure_demo_admin_login(username, password)
         user = authenticate_authorized_user(request, username, password)
 
@@ -464,18 +466,36 @@ def login_page(request):
         log_activity(request, "login_failed", "authentication", username, "Invalid username or password.")
         messages.error(request, "Invalid username or password.")
 
-    return render(request, "core/login.html", {"page_title": "Login"})
+    response = render(request, "core/login.html", {"page_title": "Login"})
 
+    response["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response["Pragma"] = "no-cache"
+    response["Expires"] = "0"
+
+    return response
 
 @login_required(login_url="login")
+@never_cache
 def logout_page(request):
     if request.method == "POST":
-        log_activity(request, "logout", "authentication", request.user.username, "User signed out.")
+        username = request.user.username
+
+        log_activity(request, "logout", "authentication", username, "User signed out.")
+
         logout(request)
+        request.session.flush()
+
         messages.success(request, "You have been logged out.")
-        return redirect("login")
+
+        response = redirect("login")
+        response["Cache-Control"] = "no-cache, no-store, must-revalidate"
+        response["Pragma"] = "no-cache"
+        response["Expires"] = "0"
+
+        return response
 
     return render(request, "core/logout.html", {"page_title": "Logout"})
+
 
 
 @login_required(login_url="login")

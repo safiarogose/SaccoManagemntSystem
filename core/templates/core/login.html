@@ -144,12 +144,35 @@
             </div>
         {% endif %}
 
-        <form class="login-form" method="post">
-            {% csrf_token %}
-            <label>Username<input name="username" autocomplete="username" placeholder="Example: admin" required autofocus></label>
-            <label>Password<input name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required></label>
-            <button class="login-submit" type="submit">Sign In</button>
-        </form>
+        <form class="login-form" method="post" autocomplete="off">
+    {% csrf_token %}
+
+    <label>
+        Username
+        <input 
+            name="username"
+            value=""
+            autocomplete="off"
+            placeholder="Example: admin"
+            required
+            autofocus
+        >
+    </label>
+
+    <label>
+        Password
+        <input 
+            name="password"
+            type="password"
+            value=""
+            autocomplete="new-password"
+            placeholder="Enter your password"
+            required
+        >
+    </label>
+
+    <button class="login-submit" type="submit">Sign In</button>
+</form>
     </main>
 </body>
 </html>
