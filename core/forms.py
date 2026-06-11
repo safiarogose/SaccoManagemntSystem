@@ -51,6 +51,9 @@ class StaffForm(DateInputMixin, forms.ModelForm):
         fields = ["staff_no", "first_name", "last_name", "gender", "phone", "email", "role", "branch", "date_hired", "status"]
 
 
+from django import forms
+from .models import Member
+
 class MemberForm(forms.ModelForm):
     class Meta:
         model = Member
@@ -68,6 +71,24 @@ class MemberForm(forms.ModelForm):
             "branch",
         ]
 
+        widgets = {
+            "date_of_birth": forms.DateInput(
+                attrs={
+                    "type": "date",
+                    "class": "form-control",
+                }
+            ),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "middle_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "gender": forms.Select(attrs={"class": "form-control"}),
+            "id_no": forms.TextInput(attrs={"class": "form-control"}),
+            "phone": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "address": forms.TextInput(attrs={"class": "form-control"}),
+            "status": forms.TextInput(attrs={"class": "form-control"}),
+            "branch": forms.Select(attrs={"class": "form-control"}),
+        }
 class AccountTypeForm(forms.ModelForm):
     class Meta:
         model = AccountType
