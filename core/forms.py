@@ -51,8 +51,6 @@ class StaffForm(DateInputMixin, forms.ModelForm):
         fields = ["staff_no", "first_name", "last_name", "gender", "phone", "email", "role", "branch", "date_hired", "status"]
 
 
-from django import forms
-from .models import Member
 
 class MemberForm(forms.ModelForm):
     class Meta:
