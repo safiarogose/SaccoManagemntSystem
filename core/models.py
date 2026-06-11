@@ -55,29 +55,28 @@ class Staff(TimestampedModel):
     def __str__(self):
         return f"{self.staff_no} - {self.first_name} {self.last_name}"
 
+class Member(models.Model):
+    member_no = models.CharField(max_length=10, unique=True, blank=True)
+    member_name = models.CharField(max_length=100)
+    phone = models.CharField(max_length=20)
+    address = models.CharField(max_length=200, blank=True)
 
-class Member(TimestampedModel):
-    member_no = models.CharField(max_length=30, unique=True)
-    first_name = models.CharField(max_length=80)
-    middle_name = models.CharField(max_length=80, blank=True)
-    last_name = models.CharField(max_length=80)
-    gender = models.CharField(max_length=1, blank=True)
-    date_of_birth = models.DateField(null=True, blank=True)
-    id_no = models.CharField(max_length=50, unique=True)
-    phone = models.CharField(max_length=30, blank=True)
-    email = models.EmailField(max_length=100, blank=True)
-    address = models.CharField(max_length=255, blank=True)
-    date_joined = models.DateField(auto_now_add=True)
-    status = models.CharField(max_length=20, default="Active")
-    branch = models.ForeignKey(Branch, on_delete=models.PROTECT)
+    def save(self, *args, **kwargs):
+        if not self.member_no:
+            last_member = Member.objects.order_by("id").last()
 
-    class Meta:
-        ordering = ["member_no"]
-        indexes = [models.Index(fields=["branch"])]
+            if last_member and last_member.member_no:
+                last_number = int(last_member.member_no.replace("M", ""))
+                new_number = last_number + 1
+            else:
+                new_number = 1
+
+            self.member_no = f"M{new_number:03d}"
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.member_no} - {self.first_name} {self.last_name}"
-
+        return f"{self.member_no} - {self.member_name}"
 
 class AccountType(models.Model):
     type_name = models.CharField(max_length=80, unique=True)
