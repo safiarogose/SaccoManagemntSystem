@@ -1546,7 +1546,7 @@ tr.is-hidden {
     overflow-x: hidden;
     background:
         linear-gradient(135deg, rgba(0, 13, 131, 0.88), rgba(42, 63, 84, 0.76)),
-        url("images/sacco-hero.png") center / cover fixed;
+        url("images/sacco-hero.png?v=20260611") center / cover fixed;
 }
 
 .auth-shell {
@@ -1579,7 +1579,7 @@ tr.is-hidden {
     border-radius: 10px 0 0 10px;
     background:
         linear-gradient(145deg, rgba(0, 13, 131, 0.96), rgba(0, 28, 130, 0.78)),
-        url("images/sacco-hero.png") center / cover;
+        url("images/sacco-hero.png?v=20260611") center / cover;
     color: #ffffff;
     box-shadow: 0 24px 70px rgba(0, 13, 131, 0.28);
 }
