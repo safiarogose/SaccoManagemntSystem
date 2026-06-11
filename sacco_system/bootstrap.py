@@ -1,6 +1,9 @@
 import os
+import shutil
+from pathlib import Path
 
 from django.core.management import call_command
+from django.conf import settings
 
 
 def env_bool(name, default=False):
@@ -11,6 +14,7 @@ def bootstrap_vercel_database():
     if not os.environ.get("VERCEL") or not env_bool("VERCEL_AUTO_MIGRATE", True):
         return
 
+    initialize_vercel_sqlite()
     call_command("migrate", interactive=False, verbosity=0)
 
     if env_bool("VERCEL_SEED_DEMO", False) or live_database_needs_seed():
@@ -67,3 +71,17 @@ def seed_demo_data():
 def ensure_demo_data():
     if live_database_needs_seed():
         seed_demo_data()
+
+
+def initialize_vercel_sqlite():
+    database = settings.DATABASES["default"]
+    if database.get("ENGINE") != "django.db.backends.sqlite3":
+        return
+
+    target = Path(database["NAME"])
+    source = settings.BASE_DIR / "db.sqlite3"
+    if target.exists() or not source.exists() or source.resolve() == target.resolve():
+        return
+
+    target.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(source, target)
